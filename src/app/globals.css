@@ -1,0 +1,112 @@
+@import "tailwindcss";
+
+@theme {
+  --color-burgundy: #4a2832;
+  --color-burgundy-dark: #2e1820;
+  --color-burgundy-soft: #f8efef;
+  --color-gold: #c6a56e;
+  --color-gold-dark: #8a6a32; /* gold for small text on light backgrounds (AA contrast) */
+  --color-gold-soft: #efe3d0;
+  --color-ivory: #f5efe6;
+  --color-ivory-light: #fbf8f3;
+  --color-charcoal: #2a2a2a;
+  --color-muted: #5e5650;
+  --color-line: #e6dccd;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-playfair), Georgia, serif;
+  --font-display: var(--font-cinzel), Georgia, serif;
+
+  --animate-marquee: marquee 45s linear infinite;
+  --animate-spin-slow: spin 18s linear infinite;
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-white font-sans text-charcoal antialiased;
+  }
+  h1, h2, h3, h4 {
+    @apply font-serif tracking-tight text-burgundy;
+  }
+  a {
+    @apply text-burgundy;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-gold-dark);
+    outline-offset: 2px;
+  }
+}
+
+@utility container-x {
+  @apply mx-auto w-full max-w-6xl px-5 sm:px-6;
+}
+@utility btn {
+  @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-6 text-[15px] font-semibold no-underline transition-colors disabled:cursor-not-allowed disabled:opacity-60;
+}
+@utility btn-primary {
+  @apply btn bg-burgundy text-white hover:bg-burgundy-dark;
+}
+@utility btn-gold {
+  @apply btn bg-gold text-charcoal hover:bg-[#b8924a];
+}
+@utility btn-outline {
+  @apply btn border-[1.5px] border-charcoal bg-transparent text-charcoal hover:bg-ivory;
+}
+@utility btn-sm {
+  @apply min-h-9 px-4 text-sm;
+}
+@utility eyebrow {
+  @apply inline-flex items-center gap-2 text-[13px] font-semibold tracking-[0.14em] text-gold-dark uppercase;
+}
+@utility card {
+  @apply rounded-2xl border border-line bg-ivory-light p-6;
+}
+@utility label {
+  @apply mb-1.5 block text-sm font-semibold text-charcoal;
+}
+@utility input {
+  @apply min-h-12 w-full rounded-xl border border-[#d2c5b0] bg-white px-3.5 text-[15px] text-charcoal placeholder:text-[#8f857c] focus:border-burgundy focus:outline-none;
+  &:where(textarea) {
+    @apply py-3;
+  }
+}
+@utility dots {
+  background-image: radial-gradient(var(--color-gold) 1.2px, transparent 1.2px);
+  background-size: 18px 18px;
+}
+@utility stripes {
+  background-image: repeating-linear-gradient(135deg, rgb(255 255 255 / 0.06) 0 2px, transparent 2px 12px);
+}
+@utility pill {
+  @apply inline-block rounded-full px-2.5 py-1 text-xs font-semibold whitespace-nowrap;
+}
+
+@layer components {
+  .prose-hga {
+    @apply text-[17px] leading-[1.75] text-charcoal;
+  }
+  .prose-hga h2 { @apply mt-10 mb-3 text-3xl; }
+  .prose-hga h3 { @apply mt-8 mb-2 text-2xl; }
+  .prose-hga p, .prose-hga ul, .prose-hga ol { @apply mb-5; }
+  .prose-hga ul { @apply list-disc pl-6; }
+  .prose-hga ol { @apply list-decimal pl-6; }
+  .prose-hga li { @apply mb-1.5; }
+  .prose-hga a { @apply underline underline-offset-2; }
+  .prose-hga blockquote { @apply my-6 rounded-2xl bg-ivory px-6 py-5 font-serif text-xl italic text-burgundy; }
+  .prose-hga img { @apply my-6 rounded-2xl; }
+  .prose-hga code { @apply rounded bg-ivory px-1.5 py-0.5 text-[0.9em]; }
+  .prose-hga hr { @apply my-10 border-line; }
+  .embed-tiktok { @apply my-6 mx-auto aspect-[9/16] w-full max-w-[340px] overflow-hidden rounded-2xl bg-charcoal; }
+  .embed-tiktok iframe { @apply h-full w-full border-0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee, .animate-spin-slow { animation: none !important; }
+}
