@@ -76,7 +76,7 @@ export default async function Home() {
           <div style={delay(200)} className="relative mx-auto grid w-full max-w-[560px] animate-rise grid-cols-[1.15fr_1fr] gap-4">
             <Photo m={media.heroPortrait} priority className="row-span-2 min-h-[420px] rounded-[40px_120px_40px_40px] sm:min-h-[500px]" />
             <Photo m={media.heroClass} tone="gold" className="min-h-[200px] rounded-[120px_40px_40px_40px] sm:min-h-[240px]" />
-            <Photo m={media.heroStudy} tone="ivory" className="min-h-[200px] rounded-[40px_40px_120px_40px] sm:min-h-[240px]" />
+            <Photo m={media.heroStudy} tone="ivory" className="min-h-[200px] rounded-[32px_32px_64px_32px] sm:min-h-[240px] sm:rounded-[40px_40px_120px_40px]" />
             <BookBadge id="hero-badge" className="absolute top-1/2 left-[46%] -translate-x-1/2 -translate-y-1/2" />
             <Sparkle className="absolute -right-2 bottom-8 size-10 animate-twinkle text-gold" />
             <Sparkle className="absolute right-8 bottom-24 size-5 animate-twinkle text-gold-dark [animation-delay:1.4s]" />

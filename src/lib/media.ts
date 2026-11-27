@@ -6,9 +6,9 @@
 export type Media = { src: string; alt: string; label?: string; focus?: string; icon: "nurse" | "study" | "people" | "book" | "globe" | "video" };
 
 export const media = {
-  heroPortrait: { src: "/images/harriet-stethoscope-portrait.webp", focus: "50% 30%", alt: "Harriet K, Registered Nurse and founder of Hetty Global Academy", label: "Taught by a Registered Nurse", icon: "nurse" },
-  heroClass: { src: "/images/harriet-scrubs-square.webp", alt: "Harriet K in nursing scrubs", label: "1:1 coaching with Harriet", focus: "50% 25%", icon: "video" },
-  heroStudy: { src: "", alt: "A nurse studying for an exam", label: "Personal study plans", icon: "study" },
+  heroPortrait: { src: "/images/harriet-vancouver-portrait.webp", focus: "56% 30%", alt: "Harriet K, founder of Hetty Global Academy, smiling at a restaurant overlooking Vancouver harbour at night", label: "Registered Nurse", icon: "nurse" },
+  heroClass: { src: "/images/harriet-scrubs-square.webp", alt: "Harriet K in nursing scrubs", label: "1:1 coaching", focus: "50% 25%", icon: "video" },
+  heroStudy: { src: "/images/harriet-stethoscope-portrait.webp", focus: "50% 22%", alt: "Harriet K with her stethoscope and hospital badge", label: "Nursing educator", icon: "study" },
   aboutTop: { src: "/images/harriet-scrubs-landscape.webp", alt: "Harriet K, Registered Nurse, in scrubs", focus: "50% 30%", icon: "people" },
   aboutBottom: { src: "", alt: "A one-to-one coaching session", icon: "study" },
   hub: { src: "/images/harriet-scrubs-portrait.webp", alt: "Harriet K in nursing scrubs", focus: "50% 35%", icon: "nurse" },
