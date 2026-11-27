@@ -6,7 +6,7 @@ import { getSitemapPosts } from "@/lib/queries";
 export const revalidate = 3600;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const fixed = ["", "/about", "/programs", "/videos", "/blog", "/contact", "/book", "/register", "/privacy", "/terms"].map((p) => ({
+  const fixed = ["", "/about", "/programs", "/resources", "/videos", "/blog", "/contact", "/book", "/register", "/privacy", "/terms"].map((p) => ({
     url: `${site.url}${p}`,
     changeFrequency: "weekly" as const,
     priority: p === "" ? 1 : 0.7,

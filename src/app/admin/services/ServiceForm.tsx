@@ -4,13 +4,13 @@ import Link from "next/link";
 import { useActionState, useState } from "react";
 import { saveService } from "@/actions/admin";
 import { initialState } from "@/actions/types";
-import { ACADEMIES } from "@/lib/constants";
+import { ACADEMIES, ACADEMY_LABEL } from "@/lib/constants";
 import { Notice } from "@/components/ui";
 import { FieldError, SubmitButton } from "@/components/forms/SubmitButton";
 
 export type ServiceInput = {
   id: string; name: string; kind: "consultation" | "course"; academy: string; summary: string; durationMin: number;
-  priceGHS: string; priceCAD: string; startDate: string; schedule: string; seats: number; order: number; active: boolean;
+  priceGHS: string; priceCAD: string; startDate: string; schedule: string; seats: number; order: number; active: boolean; formats: string[];
 };
 
 export function ServiceForm({ s }: { s: ServiceInput }) {
@@ -32,8 +32,8 @@ export function ServiceForm({ s }: { s: ServiceInput }) {
           </select>
         </div>
         <div>
-          <label className="label" htmlFor="sv-academy">Academy</label>
-          <select className="input" id="sv-academy" name="academy" defaultValue={s.academy}>{ACADEMIES.map((a) => <option key={a}>{a}</option>)}</select>
+          <label className="label" htmlFor="sv-academy">Department</label>
+          <select className="input" id="sv-academy" name="academy" defaultValue={s.academy}>{ACADEMIES.map((a) => <option key={a} value={a}>{ACADEMY_LABEL[a]}</option>)}</select>
         </div>
       </div>
       <div><label className="label" htmlFor="sv-summary">Short description</label><input className="input" id="sv-summary" name="summary" defaultValue={s.summary} maxLength={300} /></div>
@@ -50,6 +50,15 @@ export function ServiceForm({ s }: { s: ServiceInput }) {
         </div>
       )}
       {kind !== "course" && <><input type="hidden" name="seats" value={s.seats} /><input type="hidden" name="schedule" value={s.schedule} /></>}
+      <fieldset>
+        <legend className="label">Session types offered</legend>
+        <div className="flex flex-wrap gap-4">
+          {(["individual", "group"] as const).map((t) => (
+            <label key={t} className="flex min-h-11 items-center gap-2 text-sm"><input type="checkbox" name="formats" value={t} defaultChecked={s.formats.includes(t)} className="size-[18px] accent-[#4a2832]" />{t === "individual" ? "Individual" : "Group"}</label>
+          ))}
+        </div>
+        <FieldError id="sv-formats-e" msg={f.formats} />
+      </fieldset>
       <div className="grid items-end gap-4 sm:grid-cols-2">
         <div><label className="label" htmlFor="sv-order">Display order</label><input className="input" id="sv-order" name="order" type="number" defaultValue={s.order} /></div>
         <label className="flex min-h-12 items-center gap-2 text-sm font-semibold"><input type="checkbox" name="active" defaultChecked={s.active} className="size-[18px] accent-[#4a2832]" />Bookable on the website</label>

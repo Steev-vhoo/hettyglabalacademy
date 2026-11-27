@@ -11,6 +11,7 @@ import { createPaystackCheckout, createStripeCheckout, paymentsEnabled, provider
 import { rateLimited } from "@/lib/ratelimit";
 import { site } from "@/lib/site";
 import { fieldErrors, type FormState } from "./types";
+import { PLATFORMS, SESSION_TYPES } from "@/lib/constants";
 
 const schema = z.object({
   serviceId: z.string().regex(/^[a-f0-9]{24}$/, "Choose a service"),
@@ -23,6 +24,8 @@ const schema = z.object({
   notes: z.string().trim().max(2000).optional(),
   timezone: z.string().max(60).optional(),
   provider: z.enum(["paystack", "stripe"]).optional(),
+  sessionType: z.enum(SESSION_TYPES).default("individual"),
+  platform: z.enum(PLATFORMS, { message: "Choose Zoom or WhatsApp" }),
   consent: z.literal("on", { message: "Please accept the booking terms" }),
 });
 
@@ -35,6 +38,9 @@ export async function createBooking(_: FormState, form: FormData): Promise<FormS
   await db();
   const service = await Service.findOne({ _id: d.serviceId, active: true }).lean<ServiceDoc>();
   if (!service) return { error: "That service is no longer available." };
+
+  const formats = service.formats?.length ? service.formats : ["individual", "group"];
+  if (!formats.includes(d.sessionType)) return { error: "Please choose a session type.", fields: { sessionType: "Choose individual or group" } };
 
   // Time slot (consultations) or seat (courses)
   let startsAt: Date | undefined;
@@ -78,6 +84,8 @@ export async function createBooking(_: FormState, form: FormData): Promise<FormS
       stage: d.stage,
       notes: d.notes,
       timezone: d.timezone,
+      sessionType: d.sessionType,
+      platform: d.platform,
       startsAt,
       endsAt,
       slotKey: startsAt?.toISOString(),

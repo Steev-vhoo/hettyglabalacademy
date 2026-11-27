@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { Service, type ServiceDoc } from "@/lib/models";
 import { formatDate, money } from "@/lib/format";
 import { Notice, StatusPill } from "@/components/ui";
+import { ACADEMY_LABEL } from "@/lib/constants";
 import { AdminHeader, Panel, td, th } from "../ui";
 import { ServiceForm, type ServiceInput } from "./ServiceForm";
 
@@ -20,6 +21,7 @@ const toInput = (s?: ServiceDoc): ServiceInput => ({
   startDate: s?.startDate ? s.startDate.toISOString().slice(0, 10) : "",
   schedule: s?.schedule ?? "",
   seats: s?.seats ?? 0,
+  formats: s?.formats?.length ? s.formats : ["individual", "group"],
   order: s?.order ?? 0,
   active: s?.active ?? true,
 });
@@ -45,7 +47,7 @@ export default async function ServicesPage({ searchParams }: { searchParams: Pro
               <tbody>
                 {services.map((s) => (
                   <tr key={String(s._id)}>
-                    <td className={td}><strong>{s.name}</strong><br /><span className="text-muted">{s.academy}</span></td>
+                    <td className={td}><strong>{s.name}</strong><br /><span className="text-muted">{ACADEMY_LABEL[s.academy]}</span></td>
                     <td className={td}>{s.kind === "course" ? `Course${s.startDate ? ` · ${formatDate(s.startDate)}` : ""}` : `${s.durationMin} min`}</td>
                     <td className={td}>{s.priceGHS != null ? money(s.priceGHS, "GHS") : "—"}</td>
                     <td className={td}>{s.priceCAD != null ? money(s.priceCAD, "CAD") : "—"}</td>

@@ -31,12 +31,13 @@ export function ContactForm() {
         <div>
           <label className="label" htmlFor="c-topic">Topic</label>
           <select className="input" id="c-topic" name="topic">
-            <option>NCLEX preparation</option>
-            <option>CELPIP preparation</option>
-            <option>English communication</option>
-            <option>Mentorship</option>
-            <option>Booking question</option>
-            <option>Other</option>
+            <option>Course information</option>
+            <option>Registration help</option>
+            <option>Booking support</option>
+            <option>Nursing Education / NCLEX-RN</option>
+            <option>English Language Academy / CELPIP</option>
+            <option>Global mentorship &amp; careers</option>
+            <option>General enquiry</option>
           </select>
         </div>
       </div>

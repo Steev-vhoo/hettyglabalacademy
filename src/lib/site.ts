@@ -3,9 +3,14 @@ export const site = {
   shortName: "HGA",
   tagline: "Empowering Minds. Elevating Careers. Transforming Futures.",
   motto: "Learn · Grow · Excel",
+  promise: "Your Knowledge. Your Confidence. Your Global Opportunity.",
   pillars: ["Nursing", "Language", "Education", "Mentorship"],
   description:
-    "NCLEX preparation, CELPIP test prep, English communication and career mentorship led by Registered Nurse Harriet K — for Ghanaian learners at home and abroad.",
+    "NCLEX-RN preparation, English for beginners and CELPIP coaching, and international career mentorship led by Registered Nurse Harriet K — for internationally trained nurses and professionals in Ghana, Africa, Canada and worldwide.",
+  mission:
+    "To empower aspiring and internationally trained professionals through accessible, high-quality education, personalized mentorship and transformative learning opportunities.",
+  vision:
+    "To become a globally recognized educational and mentorship institution, bridging knowledge, opportunity and professional development across borders.",
   url: (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000").replace(/\/$/, ""),
   email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "registerednursehetty.ca@gmail.com",
   whatsapp: (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "").replace(/\D/g, ""),
@@ -28,6 +33,7 @@ export const nav = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
   { href: "/programs", label: "Programs" },
+  { href: "/resources", label: "Resources" },
   { href: "/videos", label: "Videos" },
   { href: "/blog", label: "Blog" },
   { href: "/contact", label: "Contact" },

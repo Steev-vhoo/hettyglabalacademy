@@ -5,12 +5,14 @@ import { generateSlots, type Interval, type SlotSettings } from "./slots";
 import { adminEmail, sendMail } from "./mail";
 import { formatDate, money } from "./format";
 import { site } from "./site";
+import { PLATFORM_LABEL } from "./constants";
 
 export const HOLD_MINUTES = 30;
 
 const DEFAULT_SETTINGS: SlotSettings = {
-  timezone: "America/Toronto",
-  weekly: [1, 2, 4, 5].map((day) => ({ day, start: 9 * 60, end: 17 * 60 })).concat([{ day: 6, start: 10 * 60, end: 14 * 60 }]),
+  // Usual window: 8:00–9:00 am Ghana time (GMT), Monday–Saturday. Change it any time in Admin › Availability.
+  timezone: "Africa/Accra",
+  weekly: [1, 2, 3, 4, 5, 6].map((day) => ({ day, start: 8 * 60, end: 9 * 60 })),
   blockedDates: [],
   slotStepMin: 30,
   bufferMin: 15,
@@ -117,6 +119,8 @@ export async function notifyBooking(b: BookingDoc, event: "new" | "paid" | "conf
         ? `Thank you — we've received your booking for ${b.serviceName}. Harriet will confirm it shortly.`
         : `Your booking for ${b.serviceName} is confirmed.`,
     `When: ${when}`,
+    `Session: ${b.sessionType === "group" ? "Group" : "Individual"} · ${PLATFORM_LABEL[b.platform ?? "zoom"]}`,
+    ...(b.platform === "whatsapp" ? [`We'll call you on WhatsApp at ${b.phone || "the number you gave"}.`] : []),
     `Price: ${price}`,
     ...(b.meetingLink ? [`Meeting link: ${b.meetingLink}`] : []),
     `Manage your bookings: ${site.url}/account`,
@@ -128,6 +132,7 @@ export async function notifyBooking(b: BookingDoc, event: "new" | "paid" | "conf
       `${b.name} (${b.email}, ${b.phone || "no phone"}) — ${b.country || ""}`,
       `Service: ${b.serviceName}`,
       `When: ${when}`,
+      `Session: ${b.sessionType ?? "individual"} · ${PLATFORM_LABEL[b.platform ?? "zoom"]}`,
       `Payment: ${price} (${b.payment?.status})`,
       `Notes: ${b.notes || "—"}`,
       `Open: ${site.url}/admin/bookings`,

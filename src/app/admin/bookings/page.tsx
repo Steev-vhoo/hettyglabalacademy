@@ -4,6 +4,7 @@ import { Booking, type BookingDoc } from "@/lib/models";
 import { formatDate, money, STATUS_LABEL } from "@/lib/format";
 import { getSettings, releaseExpiredHolds } from "@/lib/booking";
 import { StatusPill } from "@/components/ui";
+import { PLATFORM_LABEL } from "@/lib/constants";
 import { AdminHeader, Panel, td, th } from "../ui";
 import { BookingEditor } from "./BookingEditor";
 
@@ -95,6 +96,7 @@ export default async function BookingsPage({ searchParams }: Props) {
               notes: selected.notes ?? "",
               serviceName: selected.serviceName,
               when: selected.startsAt ? `${formatDate(selected.startsAt, { dateStyle: "full", timeStyle: "short" }, tz)}` : "Course enrolment",
+              session: `${selected.sessionType === "group" ? "Group" : "Individual"} · ${PLATFORM_LABEL[selected.platform ?? "zoom"]}`,
               clientWhen: selected.startsAt && selected.timezone ? `${formatDate(selected.startsAt, { dateStyle: "medium", timeStyle: "short" }, selected.timezone)} (${selected.timezone})` : "",
               status: selected.status,
               payment: selected.payment?.amount ? `${money(selected.payment.amount, selected.payment.currency || "CAD")} · ${selected.payment.status} · ${selected.payment.provider}` : "Free",

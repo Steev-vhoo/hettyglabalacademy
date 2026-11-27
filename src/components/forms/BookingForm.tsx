@@ -7,6 +7,8 @@ import { money } from "@/lib/format";
 import { Notice } from "../ui";
 import { Lock } from "../icons";
 import { FieldError, SubmitButton } from "./SubmitButton";
+import { whatsappLink } from "@/lib/site";
+import { usualHoursText } from "@/lib/slots";
 
 export type ServiceOption = {
   id: string;
@@ -20,6 +22,7 @@ export type ServiceOption = {
   startDate?: string;
   schedule?: string;
   seatsLeft?: number | null;
+  formats: ("individual" | "group")[];
 };
 
 type Props = {
@@ -115,7 +118,8 @@ export function BookingForm({ services, initialSlug, prefill, providers, cancell
       {service?.kind === "consultation" && (
         <fieldset className="flex flex-col gap-4">
           <legend className="mb-4 font-serif text-2xl text-burgundy">2. Pick a date &amp; time</legend>
-          <p className="text-sm text-muted">Times are shown in your timezone: <strong className="text-charcoal">{tz.replace(/_/g, " ")}</strong></p>
+          <p className="rounded-xl bg-ivory px-4 py-3 text-sm text-charcoal">{usualHoursText()}</p>
+          <p className="text-sm text-muted">Times below are shown in your timezone: <strong className="text-charcoal">{tz.replace(/_/g, " ")}</strong>. Need a different time? <a href={whatsappLink("Hello, I'd like to book a session at a different time.")} target="_blank" rel="noopener noreferrer">Ask on WhatsApp</a>.</p>
           {slotError && <Notice tone="error">We couldn&apos;t load available times. Please refresh, or message us on WhatsApp.</Notice>}
           {slots === null && !slotError && <p className="text-sm text-muted" role="status">Loading available times…</p>}
           {slots?.length === 0 && <Notice>No times are open right now. Message us on WhatsApp and we&apos;ll find one for you.</Notice>}
@@ -144,9 +148,42 @@ export function BookingForm({ services, initialSlug, prefill, providers, cancell
         </fieldset>
       )}
 
+      {/* Session type + platform */}
+      <fieldset className="flex flex-col gap-5">
+        <legend className="mb-4 font-serif text-2xl text-burgundy">{service?.kind === "consultation" ? "3" : "2"}. How would you like to meet?</legend>
+        {service && (service.formats?.length ?? 2) > 1 ? (
+          <div>
+            <p className="label" id="st-label">Session type</p>
+            <div role="radiogroup" aria-labelledby="st-label" className="grid gap-3 sm:grid-cols-2">
+              {(service.formats ?? ["individual", "group"]).map((t, i) => (
+                <label key={t} className="flex cursor-pointer items-start gap-3 rounded-2xl border-[1.5px] border-line bg-white p-4 has-[:checked]:border-burgundy has-[:checked]:bg-burgundy-soft">
+                  <input type="radio" name="sessionType" value={t} defaultChecked={i === 0} className="mt-1 size-[18px] accent-[#4a2832]" />
+                  <span><span className="block font-semibold">{t === "individual" ? "Individual (one-on-one)" : "Group session"}</span><span className="block text-sm text-muted">{t === "individual" ? "Just you and Harriet" : "Learn alongside other students"}</span></span>
+                </label>
+              ))}
+            </div>
+            <FieldError id="st-e" msg={f.sessionType} />
+          </div>
+        ) : (
+          <input type="hidden" name="sessionType" value={service?.formats?.[0] ?? "individual"} />
+        )}
+        <div>
+          <p className="label" id="pf-label">Where should we meet?</p>
+          <div role="radiogroup" aria-labelledby="pf-label" className="grid gap-3 sm:grid-cols-2">
+            {([["zoom", "Zoom video call", "Meeting link sent by email"], ["whatsapp", "WhatsApp call", "We call your WhatsApp number"]] as const).map(([v, t, d], i) => (
+              <label key={v} className="flex cursor-pointer items-start gap-3 rounded-2xl border-[1.5px] border-line bg-white p-4 has-[:checked]:border-burgundy has-[:checked]:bg-burgundy-soft">
+                <input type="radio" name="platform" value={v} defaultChecked={i === 0} className="mt-1 size-[18px] accent-[#4a2832]" />
+                <span><span className="block font-semibold">{t}</span><span className="block text-sm text-muted">{d}</span></span>
+              </label>
+            ))}
+          </div>
+          <FieldError id="pf-e" msg={f.platform} />
+        </div>
+      </fieldset>
+
       {/* 3. Details */}
       <fieldset className="flex flex-col gap-5">
-        <legend className="mb-4 font-serif text-2xl text-burgundy">{service?.kind === "consultation" ? "3" : "2"}. Your details</legend>
+        <legend className="mb-4 font-serif text-2xl text-burgundy">{service?.kind === "consultation" ? "4" : "3"}. Your details</legend>
         <div className="grid gap-5 sm:grid-cols-2">
           <div>
             <label className="label" htmlFor="b-name">Full name</label>
@@ -173,7 +210,8 @@ export function BookingForm({ services, initialSlug, prefill, providers, cancell
           <select className="input" id="b-stage" name="stage" defaultValue="">
             <option value="">Choose one (optional)</option>
             <option>Nursing student</option>
-            <option>Qualified nurse in Ghana</option>
+            <option>Internationally educated nurse</option>
+            <option>English learner</option>
             <option>Preparing to move abroad</option>
             <option>Already living abroad</option>
             <option>Other</option>
@@ -188,7 +226,7 @@ export function BookingForm({ services, initialSlug, prefill, providers, cancell
       {/* 4. Payment */}
       {payOptions.length > 0 && (
         <fieldset className="flex flex-col gap-3">
-          <legend className="mb-4 font-serif text-2xl text-burgundy">{service?.kind === "consultation" ? "4" : "3"}. Payment</legend>
+          <legend className="mb-4 font-serif text-2xl text-burgundy">{service?.kind === "consultation" ? "5" : "4"}. Payment</legend>
           {payOptions.map((p, i) => (
             <label key={p.id} className="flex cursor-pointer items-start gap-3 rounded-2xl border-[1.5px] border-line bg-white p-4 has-[:checked]:border-burgundy has-[:checked]:bg-burgundy-soft">
               <input type="radio" name="provider" value={p.id} defaultChecked={i === 0} className="mt-1 size-[18px] accent-[#4a2832]" />

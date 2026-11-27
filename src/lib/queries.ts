@@ -1,6 +1,6 @@
 import "server-only";
 import { db, hasDb } from "./db";
-import { Post, Service, Video, type PostDoc, type ServiceDoc, type VideoDoc } from "./models";
+import { Post, Resource, Service, Video, type PostDoc, type ResourceDoc, type ServiceDoc, type VideoDoc } from "./models";
 
 /** Public pages should still render (without dynamic content) if the database is down or not set up yet. */
 async function safe<T>(fallback: T, fn: () => Promise<T>): Promise<T> {
@@ -40,8 +40,10 @@ export const getRelatedPosts = (p: PostDoc) =>
 export const getVideos = (opts: { featuredOnly?: boolean; limit?: number } = {}) =>
   safe<VideoDoc[]>([], () => Video.find(opts.featuredOnly ? { featured: true } : {}).sort({ order: 1, createdAt: -1 }).limit(opts.limit ?? 48).lean<VideoDoc[]>());
 
-export const getServices = (academy?: string) =>
-  safe<ServiceDoc[]>([], () => Service.find({ active: true, ...(academy ? { academy } : {}) }).sort({ order: 1, name: 1 }).lean<ServiceDoc[]>());
+export const getServices = (academies?: readonly string[]) =>
+  safe<ServiceDoc[]>([], () => Service.find({ active: true, ...(academies ? { academy: { $in: academies } } : {}) }).sort({ order: 1, name: 1 }).lean<ServiceDoc[]>());
+
+export const getResources = () => safe<ResourceDoc[]>([], () => Resource.find().sort({ category: 1, order: 1, createdAt: -1 }).lean<ResourceDoc[]>());
 
 export const getSitemapPosts = () => safe<{ slug: string; updatedAt: Date }[]>([], () => Post.find(published()).select("slug updatedAt").lean());
 

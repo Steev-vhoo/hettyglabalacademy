@@ -62,7 +62,8 @@ export function RegisterForm({ next }: { next?: string }) {
           <select className="input" id="r-stage" name="stage" defaultValue="">
             <option value="">Choose one</option>
             <option>Nursing student</option>
-            <option>Qualified nurse in Ghana</option>
+            <option>Internationally educated nurse</option>
+            <option>English learner</option>
             <option>Preparing to move abroad</option>
             <option>Already living abroad</option>
             <option>Other</option>
@@ -74,7 +75,7 @@ export function RegisterForm({ next }: { next?: string }) {
         <div className="flex flex-wrap gap-2">
           {programs.map((p) => (
             <label key={p.slug} className="flex min-h-11 cursor-pointer items-center gap-2 rounded-full border border-line px-4 text-sm has-[:checked]:border-burgundy has-[:checked]:bg-burgundy-soft">
-              <input type="checkbox" name="interests" value={p.slug} className="accent-[#4a2832]" /> {p.label}
+              <input type="checkbox" name="interests" value={p.slug} className="accent-[#4a2832]" /> {p.name}
             </label>
           ))}
         </div>

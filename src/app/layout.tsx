@@ -9,10 +9,10 @@ const cinzel = Cinzel({ subsets: ["latin"], weight: ["600", "700"], variable: "-
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
-  title: { default: `${site.name} — NCLEX, CELPIP, English & Mentorship`, template: `%s | ${site.name}` },
+  title: { default: `${site.name} — NCLEX-RN, CELPIP, English & Global Mentorship`, template: `%s | ${site.name}` },
   description: site.description,
   applicationName: site.name,
-  keywords: ["NCLEX preparation", "CELPIP preparation", "nursing education Ghana", "Ghanaian nurses Canada", "English for nurses", "nurse mentorship"],
+  keywords: ["NCLEX-RN preparation", "internationally educated nurses", "CELPIP preparation", "English for beginners", "nursing education Ghana", "nurses moving to Canada", "nurse career mentorship"],
   openGraph: { type: "website", siteName: site.name, locale: "en_GB", url: "/" },
   twitter: { card: "summary_large_image" },
   alternates: { canonical: "/" },

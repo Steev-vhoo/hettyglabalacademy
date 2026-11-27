@@ -15,16 +15,16 @@ import { delay } from "@/lib/motion";
 export const revalidate = 300;
 
 const facts = [
-  { big: "4", label: "Specialist academies" },
+  { big: "3", label: "Specialist departments" },
   { big: "1:1", label: "Personal coaching" },
   { big: "100%", label: "Online — join from anywhere" },
-  { big: "RN", label: "Led by a Registered Nurse" },
+  { big: "RN", label: "Led by a Registered Nurse & educator" },
 ];
 
 const hub = [
-  { t: "Personal study plans", d: "A plan built from a diagnostic of your strengths and gaps.", href: "/programs/nclex" },
-  { t: "NGN-style practice", d: "Clinical-judgement case studies with clear rationales.", href: "/programs/nclex" },
-  { t: "Speaking feedback", d: "Timed CELPIP tasks with honest, personal feedback.", href: "/programs/celpip" },
+  { t: "Personal study plans", d: "A plan built from a diagnostic of your strengths and gaps.", href: "/programs/nursing" },
+  { t: "NGN-style practice", d: "Clinical-judgement case studies with clear rationales.", href: "/programs/nursing#nclex" },
+  { t: "Speaking feedback", d: "English for beginners and timed CELPIP tasks with personal feedback.", href: "/programs/english" },
   { t: "Career action plans", d: "A written next-steps plan after every mentorship session.", href: "/programs/mentorship" },
 ];
 
@@ -59,7 +59,7 @@ export default async function Home() {
               Empowering Minds. Elevating Careers. <em className="text-gold-dark">Transforming Futures.</em>
             </h1>
             <p style={delay(220)} className="max-w-xl animate-rise text-lg text-muted">
-              NCLEX preparation, CELPIP coaching, English communication and career mentorship — led by Registered Nurse {site.founder.name}, for Ghanaian learners at home and abroad.
+              NCLEX-RN preparation, English for beginners and CELPIP, and international career mentorship — led by Registered Nurse {site.founder.name}, for internationally trained nurses and professionals in Ghana, Africa, Canada and worldwide.
             </p>
             <div style={delay(320)} className="flex animate-rise flex-wrap items-center gap-5">
               <Link href="/book" className="btn-primary min-h-12 px-7 transition-transform hover:-translate-y-0.5">Book a session <Arrow /></Link>
@@ -88,7 +88,7 @@ export default async function Home() {
       {/* ───────── Marquee ───────── */}
       <Marquee
         className="bg-burgundy py-5 font-serif text-xl text-white sm:text-2xl"
-        items={["NCLEX Preparation", "CELPIP Test Prep", "English Communication", "Career Mentorship", "Learn · Grow · Excel"]}
+        items={["NCLEX-RN Preparation", "English for Beginners", "CELPIP — Canadian English", "Global Career Mentorship", "Your Knowledge", "Your Confidence", "Your Global Opportunity"]}
       />
 
       {/* ───────── Bento intro ───────── */}
@@ -99,15 +99,15 @@ export default async function Home() {
               <span className="pill border border-line bg-white text-muted">WHO WE ARE</span>
               <ArrowDot />
             </div>
-            <h2 className="text-2xl leading-snug">A nurse-led academy helping Ghanaian nurses pass, practise and thrive</h2>
+            <h2 className="text-2xl leading-snug">A nurse-led academy helping internationally trained nurses learn, pass and thrive</h2>
             <Photo m={media.aboutTop} className="mt-auto aspect-[4/3] rounded-2xl" />
           </Link>
-          <Link href="/programs/nclex" data-reveal style={delay(120)} className="group relative flex transition-shadow hover:shadow-xl flex-col gap-5 overflow-hidden rounded-[28px] bg-gold p-3 text-charcoal no-underline">
-            <Photo m={media.program.nclex} className="aspect-[4/3.4] rounded-[22px]" />
+          <Link href="/programs/nursing" data-reveal style={delay(120)} className="group relative flex transition-shadow hover:shadow-xl flex-col gap-5 overflow-hidden rounded-[28px] bg-gold p-3 text-charcoal no-underline">
+            <Photo m={media.program.nursing} className="aspect-[4/3.4] rounded-[22px]" />
             <div className="flex items-end justify-between gap-4 px-4 pb-4">
               <div>
-                <span className="pill bg-white/70 text-burgundy">FEATURED ACADEMY</span>
-                <h2 className="mt-3 text-2xl leading-snug">Hetty Nursing Academy — NCLEX Preparation</h2>
+                <span className="pill bg-white/70 text-burgundy">FEATURED DEPARTMENT</span>
+                <h2 className="mt-3 text-2xl leading-snug">Nursing Education — NCLEX-RN Preparation</h2>
               </div>
               <ArrowDot light />
             </div>
@@ -143,11 +143,11 @@ export default async function Home() {
             </div>
             <div data-reveal="right" className="flex flex-col gap-6">
               <p className="text-lg text-muted">
-                {site.founder.name} started Hetty Global Academy to give nurses and students practical, trustworthy guidance — from passing licensing and language exams to building a career at home or abroad.
+                Hetty Global Academy was founded on a simple but powerful belief: knowledge should open doors, education should create possibilities, and access to the right guidance can transform lives.
               </p>
               <blockquote className="rounded-2xl border-l-4 border-gold bg-ivory px-6 py-5 font-serif text-xl text-burgundy">
-                &ldquo;I want to give great information to my Ghanaian people back home.&rdquo;
-                <footer className="mt-2 font-sans text-sm text-muted not-italic">— {site.founder.name}, {site.founder.title}</footer>
+                &ldquo;Someone&apos;s future can change when the right person takes the time to teach, guide and believe in them.&rdquo;
+                <footer className="mt-2 font-sans text-sm text-muted not-italic">— Our story, {site.name}</footer>
               </blockquote>
               <ol className="flex flex-col gap-4">
                 {[["Learn", "Clear teaching grounded in real nursing experience"], ["Grow", "Personal feedback that builds confidence"], ["Excel", "High standards and honest guidance to reach your goal"]].map(([t, d], i) => (
@@ -177,10 +177,10 @@ export default async function Home() {
         <span aria-hidden="true" className="absolute inset-x-0 top-0 h-6 stripes" />
         <div className="container-x flex flex-col gap-12">
           <div className="flex flex-wrap items-end justify-between gap-6">
-            <SectionHeading light eyebrow="Our academies" title={<>Four academies, <em className="text-gold">one goal:</em> your success</>} />
+            <SectionHeading light eyebrow="Our departments" title={<>Three departments, <em className="text-gold">one goal:</em> your success</>} />
             <Link href="/programs" className="btn bg-white text-burgundy hover:bg-ivory">View all programs <Arrow /></Link>
           </div>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-5 md:grid-cols-3">
             {programs.map((p, i) => {
               const Icon = programIcon[p.icon];
               const hi = i === 1;
@@ -290,7 +290,7 @@ export default async function Home() {
           <div data-reveal className="flex flex-col justify-between gap-8 rounded-[28px] border border-line p-8">
             <Eyebrow>Your mentor</Eyebrow>
             <h2 className="text-3xl leading-tight">Meet the nurse behind the academy</h2>
-            <p className="text-muted">Every program is designed and taught by {site.founder.name}, drawing on her own journey through training, licensing and practice.</p>
+            <p className="text-muted">Every program is designed and taught by {site.founder.name} — Registered Nurse, nursing educator and mentor — drawing on her professional journey across different countries.</p>
           </div>
           <div data-reveal style={delay(120)} className="group relative min-h-[420px] overflow-hidden rounded-[28px]">
             <Photo m={{ ...media.mentor, label: undefined }} className="absolute inset-0" />
@@ -301,7 +301,7 @@ export default async function Home() {
           </div>
           <div data-reveal style={delay(240)} className="flex flex-col justify-between gap-6 rounded-[28px] bg-gold p-8 text-charcoal">
             <p className="font-serif text-2xl leading-snug text-burgundy">Not sure where to start?</p>
-            <p>Book a free 15-minute discovery call and we&apos;ll point you to the right academy.</p>
+            <p>Book a free 15-minute discovery call and we&apos;ll point you to the right department.</p>
             <div className="flex flex-col gap-3">
               <Link href="/book?service=discovery-call" className="btn-primary">Free discovery call</Link>
               <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" className="btn border border-burgundy/30 text-burgundy hover:bg-white/40">Ask on WhatsApp</a>

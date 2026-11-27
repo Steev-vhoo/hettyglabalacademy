@@ -6,6 +6,8 @@ import { activeServices, seatsLeft } from "@/lib/booking";
 import { getSession } from "@/lib/auth";
 import { paymentsEnabled } from "@/lib/payments";
 import { whatsappLink } from "@/lib/site";
+import { usualHoursText } from "@/lib/slots";
+import { Chat } from "@/components/icons";
 import { PageHero, Notice } from "@/components/ui";
 import { BookingForm, type ServiceOption } from "@/components/forms/BookingForm";
 
@@ -44,6 +46,7 @@ export default async function BookPage({ searchParams }: Props) {
             startDate: s.startDate?.toISOString(),
             schedule: s.schedule ?? "",
             seatsLeft: left === Infinity ? null : left,
+            formats: (s.formats?.length ? s.formats : ["individual", "group"]) as ServiceOption["formats"],
           };
         }),
       );
@@ -74,11 +77,16 @@ export default async function BookPage({ searchParams }: Props) {
             <div className="card">
               <h2 className="mb-3 text-xl">Good to know</h2>
               <ul className="flex list-disc flex-col gap-2 pl-5 text-[15px] text-muted">
-                <li>Sessions take place online. Your meeting link arrives by email.</li>
+                <li>{usualHoursText()}</li>
+                <li>Meet on Zoom or by WhatsApp call — individual or group.</li>
                 <li>Paid bookings are confirmed as soon as payment goes through.</li>
                 <li>Need to change your time? Reply to your confirmation email or message us at least 24 hours before.</li>
               </ul>
             </div>
+            <a href={whatsappLink("Hello, I'd like to book a session with Hetty Global Academy.")} target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 rounded-2xl bg-[#25D366] p-5 text-[#0b2914] no-underline">
+              <span className="grid size-11 shrink-0 place-items-center rounded-full bg-white text-[#128c4a]"><Chat /></span>
+              <span><strong className="block">Prefer to book on WhatsApp?</strong><span className="text-sm">Message us and we&apos;ll arrange a time.</span></span>
+            </a>
             {!prefill && (
               <div className="card border-transparent bg-gold-soft">
                 <h2 className="mb-2 text-xl">Have an account?</h2>

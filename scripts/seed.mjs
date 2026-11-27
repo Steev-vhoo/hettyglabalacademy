@@ -12,19 +12,25 @@ const settings = mongoose.connection.collection("settings");
 const now = new Date();
 
 const starter = [
-  { name: "Free discovery call", slug: "discovery-call", kind: "consultation", academy: "general", summary: "15 minutes to find the right program for you.", durationMin: 15, priceGHS: 0, priceCAD: 0, order: 0 },
-  { name: "NCLEX 1:1 tutoring", slug: "nclex-tutoring", kind: "consultation", academy: "nursing", summary: "Focused one-to-one NCLEX preparation.", durationMin: 60, priceGHS: 60000, priceCAD: 6000, order: 10 },
-  { name: "CELPIP 1:1 coaching", slug: "celpip-coaching", kind: "consultation", academy: "celpip", summary: "Speaking and writing practice with feedback.", durationMin: 60, priceGHS: 50000, priceCAD: 5000, order: 20 },
-  { name: "English communication lesson", slug: "english-lesson", kind: "consultation", academy: "english", summary: "Workplace and everyday English for nurses.", durationMin: 60, priceGHS: 40000, priceCAD: 4000, order: 30 },
-  { name: "Career mentorship session", slug: "mentorship-session", kind: "consultation", academy: "mentorship", summary: "Plan your pathway, CV and next steps.", durationMin: 45, priceGHS: 50000, priceCAD: 5000, order: 40 },
-  { name: "NCLEX prep course (group)", slug: "nclex-group-course", kind: "course", academy: "nursing", summary: "Structured group course with weekly live classes.", durationMin: 90, priceGHS: 300000, priceCAD: 30000, schedule: "8 weeks · weekly live class", seats: 20, order: 50, active: false },
+  { name: "Free discovery call", slug: "discovery-call", kind: "consultation", academy: "general", summary: "15 minutes to find the right department and plan for you.", durationMin: 15, priceGHS: 0, priceCAD: 0, order: 0 },
+  // Nursing Education
+  { name: "NCLEX-RN tutoring", slug: "nclex-tutoring", kind: "consultation", academy: "nursing", summary: "NCLEX-RN preparation and nursing exam coaching.", durationMin: 60, priceGHS: 60000, priceCAD: 6000, order: 10 },
+  { name: "Nursing mentorship & IEN guidance", slug: "nursing-mentorship", kind: "consultation", academy: "nursing", summary: "Clinical knowledge, registration steps and guidance for internationally educated nurses.", durationMin: 45, priceGHS: 50000, priceCAD: 5000, order: 15 },
+  // English Language Academy
+  { name: "English for beginners lesson", slug: "english-lesson", kind: "consultation", academy: "english", summary: "Speaking, writing, reading and listening at your level.", durationMin: 60, priceGHS: 40000, priceCAD: 4000, order: 20 },
+  { name: "CELPIP coaching", slug: "celpip-coaching", kind: "consultation", academy: "celpip", summary: "CELPIP strategies and timed practice with feedback.", durationMin: 60, priceGHS: 50000, priceCAD: 5000, order: 25 },
+  // Global Mentorship & Career Development
+  { name: "International career mentorship", slug: "mentorship-session", kind: "consultation", academy: "mentorship", summary: "Pathway guidance, professional development and career readiness.", durationMin: 45, priceGHS: 50000, priceCAD: 5000, order: 30 },
+  { name: "Interview preparation", slug: "interview-prep", kind: "consultation", academy: "mentorship", summary: "Mock interview with feedback and a follow-up plan.", durationMin: 45, priceGHS: 50000, priceCAD: 5000, order: 35 },
+  // Example course (hidden until you set dates)
+  { name: "NCLEX-RN group course", slug: "nclex-group-course", kind: "course", academy: "nursing", summary: "Structured group course with weekly live classes.", durationMin: 60, priceGHS: 300000, priceCAD: 30000, schedule: "8 weeks · weekly live class, 8:00 am GMT", seats: 20, order: 50, active: false, formats: ["group"] },
 ];
 
 let added = 0;
 for (const s of starter) {
   const r = await services.updateOne(
     { slug: s.slug },
-    { $setOnInsert: { active: true, schedule: "", seats: 0, ...s, createdAt: now, updatedAt: now } },
+    { $setOnInsert: { active: true, schedule: "", seats: 0, formats: ["individual", "group"], ...s, createdAt: now, updatedAt: now } },
     { upsert: true },
   );
   added += r.upsertedCount;
@@ -36,8 +42,9 @@ await settings.updateOne(
   {
     $setOnInsert: {
       key: "main",
-      timezone: "America/Toronto",
-      weekly: [1, 2, 4, 5].map((day) => ({ day, start: 540, end: 1020 })).concat([{ day: 6, start: 600, end: 840 }]),
+      // 8:00–9:00 am Ghana time (GMT), Monday–Saturday = 12:00–1:00 am in Vancouver (1:00–2:00 am in summer)
+      timezone: "Africa/Accra",
+      weekly: [1, 2, 3, 4, 5, 6].map((day) => ({ day, start: 480, end: 540 })),
       blockedDates: [],
       slotStepMin: 30,
       bufferMin: 15,

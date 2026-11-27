@@ -4,8 +4,8 @@ import mongoose, { Schema, type Model, type Types } from "mongoose";
 function model<T>(name: string, schema: Schema): Model<T> {
   return (mongoose.models[name] as Model<T>) ?? mongoose.model<T>(name, schema as Schema<T>);
 }
-import { ACADEMIES, BOOKING_STATUSES, type Academy, type BookingStatus } from "./constants";
-export { ACADEMIES, BOOKING_STATUSES, POST_CATEGORIES, type Academy, type BookingStatus } from "./constants";
+import { ACADEMIES, BOOKING_STATUSES, PLATFORMS, RESOURCE_CATEGORIES, SESSION_TYPES, type Academy, type BookingStatus, type Platform, type SessionType } from "./constants";
+export { ACADEMIES, BOOKING_STATUSES, POST_CATEGORIES, RESOURCE_CATEGORIES, type Academy, type BookingStatus } from "./constants";
 
 type Base = { _id: Types.ObjectId; createdAt: Date; updatedAt: Date };
 
@@ -52,6 +52,7 @@ const serviceSchema = new Schema(
     startDate: { type: Date },
     schedule: { type: String, default: "" },
     seats: { type: Number, default: 0 }, // 0 = unlimited
+    formats: { type: [{ type: String, enum: SESSION_TYPES }], default: ["individual", "group"] },
     active: { type: Boolean, default: true, index: true },
     order: { type: Number, default: 0 },
   },
@@ -69,6 +70,7 @@ export interface ServiceDoc extends Base {
   startDate?: Date;
   schedule?: string;
   seats?: number;
+  formats?: SessionType[];
   active: boolean;
   order: number;
 }
@@ -113,6 +115,8 @@ const bookingSchema = new Schema(
     stage: String,
     notes: String,
     timezone: String, // client's timezone, for display in emails
+    sessionType: { type: String, enum: SESSION_TYPES, default: "individual" },
+    platform: { type: String, enum: PLATFORMS, default: "zoom" },
     startsAt: { type: Date, index: true },
     endsAt: Date,
     // Set only while the booking holds a time slot; unique so two people can never hold the same slot.
@@ -160,6 +164,8 @@ export interface BookingDoc extends Base {
   };
   meetingLink?: string;
   adminNotes?: string;
+  sessionType?: SessionType;
+  platform?: Platform;
 }
 export const Booking = model<BookingDoc>("Booking", bookingSchema);
 
@@ -223,6 +229,30 @@ export interface VideoDoc extends Base {
   order: number;
 }
 export const Video = model<VideoDoc>("Video", videoSchema);
+
+/* ---------- Academy resources (study materials, guides, links) ---------- */
+const resourceSchema = new Schema(
+  {
+    title: { type: String, required: true, trim: true },
+    category: { type: String, enum: RESOURCE_CATEGORIES, required: true },
+    description: { type: String, default: "" },
+    url: { type: String, required: true }, // e.g. a Google Drive / Dropbox link to a PDF, or any web page
+    kind: { type: String, enum: ["download", "link", "video"], default: "download" },
+    free: { type: Boolean, default: true },
+    order: { type: Number, default: 0 },
+  },
+  { timestamps: true },
+);
+export interface ResourceDoc extends Base {
+  title: string;
+  category: (typeof RESOURCE_CATEGORIES)[number];
+  description: string;
+  url: string;
+  kind: "download" | "link" | "video";
+  free: boolean;
+  order: number;
+}
+export const Resource = model<ResourceDoc>("Resource", resourceSchema);
 
 /* ---------- Contact messages + newsletter ---------- */
 const messageSchema = new Schema(
