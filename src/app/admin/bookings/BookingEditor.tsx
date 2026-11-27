@@ -11,7 +11,7 @@ import { FieldError, SubmitButton } from "@/components/forms/SubmitButton";
 type B = {
   id: string; name: string; email: string; phone: string; country: string; stage: string; notes: string;
   serviceName: string; when: string; clientWhen: string; status: string; payment: string; reference: string;
-  meetingLink: string; adminNotes: string; phoneDigits: string;
+  meetingLink: string; adminNotes: string; phoneDigits: string; session: string;
 };
 
 export function BookingEditor({ b }: { b: B }) {
@@ -24,6 +24,7 @@ export function BookingEditor({ b }: { b: B }) {
         {row("Service", b.serviceName)}
         {row("Your time", b.when)}
         {row("Client's time", b.clientWhen)}
+        {row("Session", b.session)}
         {row("Payment", b.payment)}
         {row("Email", <a href={`mailto:${b.email}`}>{b.email}</a>)}
         {row("Phone", b.phone)}
@@ -50,7 +51,7 @@ export function BookingEditor({ b }: { b: B }) {
         </div>
         <div>
           <label className="label" htmlFor="be-link">Meeting link</label>
-          <input className="input" id="be-link" name="meetingLink" type="url" placeholder="https://meet.google.com/…" defaultValue={b.meetingLink} />
+          <input className="input" id="be-link" name="meetingLink" type="url" placeholder="https://zoom.us/j/…" defaultValue={b.meetingLink} />
           <FieldError id="be-link-e" msg={state.fields?.meetingLink} />
         </div>
         <div>

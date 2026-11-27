@@ -3,6 +3,7 @@ import Link from "next/link";
 import { db, hasDb } from "@/lib/db";
 import { Booking, type BookingDoc } from "@/lib/models";
 import { money } from "@/lib/format";
+import { PLATFORM_LABEL } from "@/lib/constants";
 import { markPaid } from "@/lib/booking";
 import { getStripeSession } from "@/lib/payments";
 import { whatsappLink } from "@/lib/site";
@@ -51,11 +52,12 @@ export default async function ConfirmationPage({ searchParams }: Props) {
                 <div><dt className="text-sm text-muted">Service</dt><dd className="font-semibold">{b.serviceName}</dd></div>
                 <div><dt className="text-sm text-muted">When</dt><dd className="font-semibold">{b.startsAt ? <LocalTime iso={b.startsAt.toISOString()} /> : "Course enrolment"}</dd></div>
                 <div><dt className="text-sm text-muted">Payment</dt><dd className="font-semibold">{b.payment?.amount ? `${money(b.payment.amount, b.payment.currency || "CAD")} — ${paid ? "paid" : "unpaid"}` : "Free"}</dd></div>
+                <div><dt className="text-sm text-muted">Session</dt><dd className="font-semibold">{b.sessionType === "group" ? "Group" : "Individual"} · {PLATFORM_LABEL[b.platform ?? "zoom"]}</dd></div>
                 <div><dt className="text-sm text-muted">Reference</dt><dd className="font-mono text-sm">{ref}</dd></div>
               </dl>
               <div className="flex flex-wrap gap-3 pt-2">
                 <Link href="/account" className="btn-primary">View my bookings</Link>
-                <a href={whatsappLink(`Hello, my booking reference is ${ref}.`)} className="btn-outline" target="_blank" rel="noopener noreferrer">Message us</a>
+                <a href={whatsappLink(`Hello Harriet, I just booked ${b.serviceName}. My booking reference is ${ref}.`)} className="btn-outline" target="_blank" rel="noopener noreferrer">Confirm on WhatsApp</a>
               </div>
             </div>
           )}

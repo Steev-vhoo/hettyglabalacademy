@@ -20,7 +20,7 @@ export function Footer() {
           <span aria-hidden="true" className="absolute inset-0 rounded-[28px] opacity-10 dots" />
           <div className="relative max-w-md">
             <p className="font-serif text-2xl text-white">Get new guides &amp; course dates first</p>
-            <p className="text-sm text-white/75">NCLEX, CELPIP and career tips — one email when something new is posted.</p>
+            <p className="text-sm text-white/75">NCLEX-RN, English, CELPIP and career tips — one email when something new is posted.</p>
           </div>
           <div className="relative w-full max-w-md"><NewsletterForm /></div>
         </div>
@@ -36,6 +36,7 @@ export function Footer() {
             </span>
           </div>
           <p className="max-w-xs font-serif text-lg text-white/90">{site.tagline}</p>
+          <p className="text-xs tracking-[0.16em] text-gold">{site.promise.toUpperCase()}</p>
           <div className="flex flex-wrap gap-2">
             {socials.map((s) => (
               <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" className="rounded-full border border-white/20 px-4 py-2 text-sm text-white no-underline hover:border-gold hover:text-gold">{s.label}</a>
@@ -43,7 +44,7 @@ export function Footer() {
           </div>
         </div>
         <div>
-          <h2 className="mb-4 font-display text-sm tracking-[0.16em] text-gold">ACADEMIES</h2>
+          <h2 className="mb-4 font-display text-sm tracking-[0.16em] text-gold">DEPARTMENTS</h2>
           <ul className="space-y-2.5 text-sm">{programs.map((p) => <li key={p.slug}><Link className={link} href={`/programs/${p.slug}`}>{p.name}</Link></li>)}</ul>
         </div>
         <div>
@@ -59,7 +60,7 @@ export function Footer() {
             <li><Link className={link} href="/book">Book a session</Link></li>
             <li><a className={link} href={whatsappLink()}>WhatsApp</a></li>
             <li><a className={`${link} break-all`} href={`mailto:${site.email}`}>{site.email}</a></li>
-            <li className="text-[#ede6da]/60">Online — Ghana, Canada &amp; worldwide</li>
+            <li className="text-[#ede6da]/60">Online — Ghana, Africa, Canada &amp; worldwide</li>
           </ul>
         </div>
       </div>

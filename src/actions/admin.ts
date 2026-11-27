@@ -5,12 +5,13 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { requireAdmin } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { ACADEMIES, Booking, BOOKING_STATUSES, Message, POST_CATEGORIES, Post, Service, Settings, Video } from "@/lib/models";
+import { ACADEMIES, Booking, BOOKING_STATUSES, Message, POST_CATEGORIES, Post, Resource, RESOURCE_CATEGORIES, Service, Settings, Video } from "@/lib/models";
 import { notifyBooking } from "@/lib/booking";
 import { slugify } from "@/lib/format";
 import { hhmmToMinutes } from "@/lib/slots";
 import { resolveTikTokUrl, tiktokId, tiktokTitle } from "@/lib/tiktok";
 import { fieldErrors, type FormState } from "./types";
+import { SESSION_TYPES } from "@/lib/constants";
 
 const objectId = z.string().regex(/^[a-f0-9]{24}$/);
 const optionalUrl = z.union([z.literal(""), z.string().trim().url().startsWith("https://", "Use an https:// link")]);
@@ -114,13 +115,14 @@ const serviceSchema = z.object({
   startDate: z.string().optional(),
   schedule: z.string().trim().max(200),
   seats: z.coerce.number().int().min(0).max(10000),
+  formats: z.array(z.enum(SESSION_TYPES)).min(1, "Offer at least one session type"),
   order: z.coerce.number().int(),
   active: z.string().optional(),
 });
 
 export async function saveService(_: FormState, form: FormData): Promise<FormState> {
   await admin();
-  const parsed = serviceSchema.safeParse(Object.fromEntries(form));
+  const parsed = serviceSchema.safeParse({ ...Object.fromEntries(form), formats: form.getAll("formats") });
   if (!parsed.success) return { error: "Please check the highlighted fields.", fields: fieldErrors(parsed.error.issues) };
   const d = parsed.data;
   const data = {
@@ -134,6 +136,7 @@ export async function saveService(_: FormState, form: FormData): Promise<FormSta
     startDate: d.startDate ? new Date(d.startDate) : undefined,
     schedule: d.schedule,
     seats: d.seats,
+    formats: d.formats,
     order: d.order,
     active: d.active === "on",
   };
@@ -260,6 +263,36 @@ export async function deleteVideo(id: string) {
   revalidatePath("/videos");
   revalidatePath("/");
   revalidatePath("/admin/videos");
+}
+
+/* ---------------- Resources ---------------- */
+
+const resourceSchema = z.object({
+  title: z.string().trim().min(2, "Add a title").max(160),
+  category: z.enum(RESOURCE_CATEGORIES),
+  description: z.string().trim().max(400),
+  url: z.string().trim().url("Paste a full link starting with https://").startsWith("https://", "Use an https:// link"),
+  kind: z.enum(["download", "link", "video"]),
+  free: z.string().optional(),
+});
+
+export async function addResource(_: FormState, form: FormData): Promise<FormState> {
+  await admin();
+  const parsed = resourceSchema.safeParse(Object.fromEntries(form));
+  if (!parsed.success) return { error: "Please check the highlighted fields.", fields: fieldErrors(parsed.error.issues) };
+  const last = await Resource.findOne({ category: parsed.data.category }).sort({ order: -1 }).lean();
+  await Resource.create({ ...parsed.data, free: parsed.data.free === "on", order: (last?.order ?? 0) + 1 });
+  revalidatePath("/resources");
+  revalidatePath("/admin/resources");
+  return { ok: true, message: "Resource added." };
+}
+
+export async function deleteResource(id: string) {
+  await admin();
+  if (!objectId.safeParse(id).success) return;
+  await Resource.deleteOne({ _id: id });
+  revalidatePath("/resources");
+  revalidatePath("/admin/resources");
 }
 
 /* ---------------- Messages ---------------- */

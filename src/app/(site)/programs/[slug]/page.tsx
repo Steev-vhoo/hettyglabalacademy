@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ProgramPage({ params }: Props) {
   const p = programBySlug((await params).slug);
   if (!p) notFound();
-  const services = await getServices(p.academy);
+  const services = await getServices(p.academies);
   const Icon = programIcon[p.icon];
 
   return (
@@ -82,10 +82,31 @@ export default async function ProgramPage({ params }: Props) {
       <section className="py-20">
         <div className="container-x grid gap-14 lg:grid-cols-[1.6fr_1fr]">
           <div className="flex flex-col gap-12">
+            <article data-reveal className="rounded-[28px] border border-line bg-ivory-light p-7 sm:p-9">
+              <span className="eyebrow">What this department offers</span>
+              <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+                {p.offerings.map((o, i) => (
+                  <li key={o} className="flex items-center gap-3 rounded-2xl bg-white p-4 font-semibold shadow-[0_1px_0_#e6dccd]">
+                    <span className="grid size-9 shrink-0 place-items-center rounded-full bg-burgundy font-display text-sm text-gold">{i + 1}</span>
+                    {o}
+                  </li>
+                ))}
+              </ul>
+            </article>
             {p.sections.map((s) => (
-              <article key={s.title} data-reveal className="flex flex-col gap-4">
+              <article key={s.title} id={s.id} data-reveal className="flex scroll-mt-28 flex-col gap-4">
                 <h2 className="text-3xl">{s.title}</h2>
                 <p className="text-[17px] leading-relaxed text-charcoal">{s.body}</p>
+                {s.glance && (
+                  <dl className="grid gap-3 sm:grid-cols-3">
+                    {s.glance.map((g) => (
+                      <div key={g.label} className="rounded-2xl bg-burgundy p-4 text-white">
+                        <dt className="text-xs uppercase tracking-wider text-white/70">{g.label}</dt>
+                        <dd className="mt-1 font-serif text-lg">{g.value}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                )}
                 {s.points && (
                   <ul className="flex flex-col gap-2.5">
                     {s.points.map((pt) => <li key={pt} className="flex gap-3"><Check className="mt-0.5 size-5 shrink-0 text-gold-dark" />{pt}</li>)}
@@ -118,7 +139,7 @@ export default async function ProgramPage({ params }: Props) {
       {services.length > 0 && (
         <section className="bg-burgundy py-20 text-white">
           <div className="container-x flex flex-col gap-10">
-            <SectionHeading light eyebrow="Book online" title={`${p.name.replace("Hetty ", "")} sessions & courses`} />
+            <SectionHeading light eyebrow="Book online" title={`${p.name} — sessions & courses`} />
             <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
               {services.map((s) => (
                 <div key={String(s._id)} data-reveal className="flex flex-col gap-3 rounded-2xl border border-white/15 bg-white/5 p-6 transition-colors hover:bg-white/10">

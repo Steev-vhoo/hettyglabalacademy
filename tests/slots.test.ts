@@ -45,3 +45,17 @@ test("blocked dates and minimum notice are respected", () => {
   const slots = generateSlots({ ...base, minNoticeHours: 2 }, 60, [], late);
   assert.equal(slots[0], "2026-12-10T15:00:00.000Z");
 });
+
+test("8–9am Ghana time is 08:00 UTC all year (Ghana has no daylight saving)", () => {
+  const ghana: SlotSettings = { ...base, timezone: "Africa/Accra", weekly: [{ day: 4, start: 8 * 60, end: 9 * 60 }] };
+  assert.deepEqual(generateSlots(ghana, 60, [], Date.parse("2026-12-07T12:00:00Z")), ["2026-12-10T08:00:00.000Z"]);
+  assert.deepEqual(generateSlots(ghana, 60, [], Date.parse("2026-07-06T12:00:00Z")), ["2026-07-09T08:00:00.000Z"]);
+});
+
+test("usualHoursText derives the Vancouver equivalent from timezone data", async () => {
+  const { usualHoursText } = await import("../src/lib/slots.ts");
+  const text = usualHoursText(Date.parse("2026-12-10T12:00:00Z"));
+  const expected = new Intl.DateTimeFormat("en-US", { timeZone: "America/Vancouver", hour: "numeric", minute: "2-digit" }).format(new Date("2026-12-10T08:00:00Z"));
+  assert.ok(text.startsWith("Most consultations run 8:00 AM–9:00 AM Ghana time (GMT)"), text);
+  assert.ok(text.includes(expected), text);
+});

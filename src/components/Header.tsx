@@ -41,7 +41,7 @@ export function Header() {
           <div className="flex items-center gap-6 py-2.5">
             <a href={`mailto:${site.email}`} className="text-white/90 no-underline hover:text-white">{site.email}</a>
             <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-white/90 no-underline hover:text-white"><Chat className="size-4 text-gold" />WhatsApp us</a>
-            <span className="text-white/70">Online classes · Ghana, Canada &amp; worldwide</span>
+            <span className="text-white/70">Online · Ghana, Africa, Canada &amp; worldwide</span>
           </div>
           <div className="my-1.5 flex items-center gap-4 rounded-full bg-gold px-5 text-charcoal">
             <span className="font-semibold">Follow</span>

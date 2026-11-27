@@ -25,7 +25,7 @@ export default function ContactPage() {
               <span><strong className="block text-lg">Chat on WhatsApp</strong><span className="text-sm">Usually the quickest reply</span></span>
             </a>
             <div className="card"><h2 className="font-sans text-sm font-semibold text-charcoal">Email</h2><a href={`mailto:${site.email}`} className="break-all">{site.email}</a></div>
-            <div className="card"><h2 className="font-sans text-sm font-semibold text-charcoal">Where we teach</h2><p className="text-muted">Online — serving learners in Ghana, Canada and worldwide.</p></div>
+            <div className="card"><h2 className="font-sans text-sm font-semibold text-charcoal">Where we teach</h2><p className="text-muted">Online — serving learners in Ghana, Africa, Canada and worldwide.</p></div>
             <div className="card">
               <h2 className="mb-2 font-sans text-sm font-semibold text-charcoal">Follow us</h2>
               <div className="flex flex-wrap gap-2">

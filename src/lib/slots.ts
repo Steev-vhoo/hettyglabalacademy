@@ -90,6 +90,17 @@ export function generateSlots(s: SlotSettings, durationMin: number, busy: Interv
   return out;
 }
 
+/**
+ * "Most consultations run 8:00–9:00 AM Ghana time (GMT) — that's 1:00–2:00 AM in Vancouver."
+ * The Vancouver part is worked out from the timezone database, so it stays right if clocks change.
+ */
+export function usualHoursText(now = Date.now(), start = 8 * 60, end = 9 * 60) {
+  const day = dateIn(now, "Africa/Accra");
+  const t = (min: number, tz: string) =>
+    new Intl.DateTimeFormat("en-US", { timeZone: tz, hour: "numeric", minute: "2-digit" }).format(new Date(zonedToUtc(day, min, "Africa/Accra")));
+  return `Most consultations run ${t(start, "Africa/Accra")}–${t(end, "Africa/Accra")} Ghana time (GMT) — that's ${t(start, "America/Vancouver")}–${t(end, "America/Vancouver")} in Vancouver. Every time on the booking page is shown in your own timezone.`.replace(/\u202f/g, " ");
+}
+
 export const minutesToHHMM = (m: number) => `${String(Math.floor(m / 60)).padStart(2, "0")}:${String(m % 60).padStart(2, "0")}`;
 export const hhmmToMinutes = (s: string) => {
   const [h, m] = s.split(":").map(Number);
