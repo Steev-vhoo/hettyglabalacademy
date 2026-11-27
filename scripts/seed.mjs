@@ -48,6 +48,40 @@ await settings.updateOne(
   { upsert: true },
 );
 
+// Popular TikTok videos from @stylenurse1 (share links are resolved to full video URLs).
+const starterVideos = ["https://vt.tiktok.com/ZSs2ASuhm/", "https://vt.tiktok.com/ZSs2SoUsE/", "https://vt.tiktok.com/ZSs2SouUg/"];
+const videos = mongoose.connection.collection("videos");
+let order = (await videos.countDocuments()) + 1;
+for (const share of starterVideos) {
+  let url = share;
+  try {
+    for (let i = 0; i < 5 && !/\/video\/\d+/.test(url); i++) {
+      const res = await fetch(url, { redirect: "manual", headers: { "User-Agent": "Mozilla/5.0 (compatible; HGA-seed)" } });
+      const loc = res.headers.get("location");
+      if (!loc) break;
+      url = new URL(loc, url).toString();
+    }
+  } catch (e) {
+    console.warn(`Could not reach TikTok for ${share}: ${e.message}`);
+  }
+  const id = url.match(/\/video\/(\d{8,25})/)?.[1];
+  if (!id) {
+    console.warn(`Skipped ${share} — add it in Admin › TikTok videos instead.`);
+    continue;
+  }
+  let title = "";
+  try {
+    const o = await fetch(`https://www.tiktok.com/oembed?url=${encodeURIComponent(url)}`);
+    if (o.ok) title = ((await o.json()).title ?? "").slice(0, 200);
+  } catch {}
+  const r = await videos.updateOne(
+    { videoId: id },
+    { $setOnInsert: { url: url.split("?")[0], videoId: id, title, coverImage: "", featured: true, order: order++, createdAt: now, updatedAt: now } },
+    { upsert: true },
+  );
+  if (r.upsertedCount) console.log(`Added TikTok video ${id}`);
+}
+
 // Indexes the app relies on (Mongoose also builds these on first use).
 const bookings = mongoose.connection.collection("bookings");
 await bookings.createIndex({ slotKey: 1 }, { unique: true, partialFilterExpression: { slotKey: { $type: "string" } } });

@@ -18,6 +18,13 @@ export function Header() {
       .then(setMe)
       .catch(() => {});
   }, [path]);
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const on = () => setScrolled(window.scrollY > 8);
+    on();
+    window.addEventListener("scroll", on, { passive: true });
+    return () => window.removeEventListener("scroll", on);
+  }, []);
   const active = (href: string) => (href === "/" ? path === "/" : path.startsWith(href));
   const account = me.isAdmin ? { href: "/admin", label: "Dashboard" } : me.signedIn ? { href: "/account", label: "My account" } : { href: "/login", label: "Sign in" };
   const socials = [
@@ -43,7 +50,7 @@ export function Header() {
         </div>
       </div>
 
-      <header className="sticky top-0 z-40 border-b border-line bg-white/95 backdrop-blur">
+      <header className={`sticky top-0 z-40 border-b bg-white/95 backdrop-blur transition-shadow duration-300 ${scrolled ? "border-transparent shadow-[0_10px_30px_-14px_rgba(74,40,50,0.35)]" : "border-line"}`}>
         <div className="container-x flex items-center justify-between gap-4 py-3">
           <Logo />
           <nav aria-label="Main" className="hidden items-center gap-7 lg:flex">

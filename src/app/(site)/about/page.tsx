@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { programs } from "@/lib/programs";
 import { site } from "@/lib/site";
 import { PageHero, SectionHeading } from "@/components/ui";
 import { Arrow, programIcon } from "@/components/icons";
+import { Photo, Sparkle } from "@/components/brand";
+import { media } from "@/lib/media";
+import { delay } from "@/lib/motion";
 
 export const metadata: Metadata = {
   title: "About Us — Our Story",
@@ -25,8 +27,10 @@ export default function AboutPage() {
 
       <section className="py-20">
         <div className="container-x grid items-center gap-14 lg:grid-cols-2">
-          <div className="rounded-[28px] border border-line bg-ivory p-10">
-            <Image src="/brand/logo-full.webp" alt="Hetty Global Academy logo with its four academies" width={1536} height={1024} className="h-auto w-full mix-blend-multiply" />
+          <div data-reveal="left" className="relative mx-auto w-full max-w-md">
+            <Photo m={{ ...media.mentor, label: "Harriet K · Registered Nurse" }} priority className="aspect-[4/5] rounded-[40px_120px_40px_40px]" />
+            <Sparkle className="absolute -top-3 -left-3 size-9 animate-twinkle text-gold" />
+            <div className="absolute -right-4 -bottom-5 rounded-2xl bg-burgundy px-5 py-3 font-display text-sm tracking-[0.18em] text-gold shadow-xl sm:-right-8">LEARN · GROW · EXCEL</div>
           </div>
           <div className="flex flex-col gap-5">
             <SectionHeading eyebrow="Meet the founder" title={`${site.founder.name}, Registered Nurse & CEO`} />
@@ -46,8 +50,8 @@ export default function AboutPage() {
         <div className="container-x flex flex-col gap-10">
           <SectionHeading light center eyebrow="Our motto" title="Learn · Grow · Excel" />
           <div className="grid gap-5 md:grid-cols-3">
-            {values.map((v) => (
-              <div key={v.t} className="rounded-2xl border border-white/15 bg-white/5 p-8">
+            {values.map((v, i) => (
+              <div key={v.t} data-reveal style={delay(i * 120)} className="rounded-2xl border border-white/15 bg-white/5 p-8">
                 <h3 className="font-display text-2xl tracking-[0.08em] text-gold">{v.t.toUpperCase()}</h3>
                 <p className="mt-3 text-white/85">{v.d}</p>
               </div>
@@ -64,7 +68,7 @@ export default function AboutPage() {
             {programs.map((p) => {
               const Icon = programIcon[p.icon];
               return (
-                <Link key={p.slug} href={`/programs/${p.slug}`} className="card flex flex-col gap-3 text-charcoal no-underline hover:shadow-md">
+                <Link key={p.slug} href={`/programs/${p.slug}`} data-reveal className="card flex flex-col gap-3 text-charcoal no-underline transition-[transform,box-shadow] duration-500 hover:-translate-y-1 hover:shadow-md">
                   <span className="grid size-12 place-items-center rounded-full bg-burgundy text-gold"><Icon /></span>
                   <h3 className="text-lg">{p.name}</h3>
                   <p className="text-sm text-muted">{p.short}</p>

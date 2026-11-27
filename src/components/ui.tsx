@@ -11,7 +11,7 @@ export function PageHero({ crumb, title, intro, children }: { crumb: string; tit
         <div className="relative overflow-hidden rounded-[32px] bg-burgundy px-6 py-14 text-white sm:px-12 sm:py-20">
           <span aria-hidden="true" className="absolute inset-0 opacity-[0.12] dots" />
           <Image src="/brand/crest-transparent.webp" alt="" width={420} height={306} aria-hidden="true" className="pointer-events-none absolute -right-16 -bottom-16 w-[340px] opacity-[0.12] sm:w-[420px]" />
-          <div className="relative flex max-w-3xl flex-col gap-5">
+          <div className="relative flex max-w-3xl animate-rise flex-col gap-5">
             <nav aria-label="Breadcrumb" className="self-start rounded-full bg-white/10 px-4 py-1.5 text-sm text-white/85">
               <Link href="/" className="text-white/85 no-underline hover:text-white">Home</Link> <span aria-hidden="true" className="text-gold">/</span> {crumb}
             </nav>
@@ -28,7 +28,7 @@ export function PageHero({ crumb, title, intro, children }: { crumb: string; tit
 
 export function SectionHeading({ eyebrow, title, center, light, children }: { eyebrow: string; title: React.ReactNode; center?: boolean; light?: boolean; children?: React.ReactNode }) {
   return (
-    <div className={`flex flex-col gap-3 ${center ? "items-center text-center" : ""}`}>
+    <div data-reveal className={`flex flex-col gap-3 ${center ? "items-center text-center" : ""}`}>
       <Eyebrow light={light}>{eyebrow}</Eyebrow>
       <h2 className={`max-w-2xl text-3xl leading-[1.12] sm:text-[44px] ${light ? "text-white" : ""}`}>{title}</h2>
       {children}

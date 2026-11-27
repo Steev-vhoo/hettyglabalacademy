@@ -53,7 +53,7 @@ export default async function ProgramPage({ params }: Props) {
 
       <section className="bg-ivory py-16 sm:py-20">
         <div className="container-x grid items-center gap-10 lg:grid-cols-[1.4fr_1fr]">
-          <div className="flex flex-col gap-5">
+          <div className="flex animate-rise flex-col gap-5">
             <nav aria-label="Breadcrumb" className="text-sm text-muted">
               <Link href="/" className="text-muted no-underline">Home</Link> / <Link href="/programs" className="text-muted no-underline">Programs</Link> / {p.label}
             </nav>
@@ -83,7 +83,7 @@ export default async function ProgramPage({ params }: Props) {
         <div className="container-x grid gap-14 lg:grid-cols-[1.6fr_1fr]">
           <div className="flex flex-col gap-12">
             {p.sections.map((s) => (
-              <article key={s.title} className="flex flex-col gap-4">
+              <article key={s.title} data-reveal className="flex flex-col gap-4">
                 <h2 className="text-3xl">{s.title}</h2>
                 <p className="text-[17px] leading-relaxed text-charcoal">{s.body}</p>
                 {s.points && (
@@ -103,11 +103,11 @@ export default async function ProgramPage({ params }: Props) {
             )}
           </div>
           <aside className="flex flex-col gap-6">
-            <div className="card">
+            <div data-reveal className="card">
               <h2 className="mb-4 text-xl">Who it&apos;s for</h2>
               <ul className="flex flex-col gap-3 text-[15px]">{p.forWho.map((w) => <li key={w} className="flex gap-3"><Check className="mt-0.5 size-5 shrink-0 text-gold-dark" />{w}</li>)}</ul>
             </div>
-            <div className="card border-transparent bg-gold-soft">
+            <div data-reveal className="card border-transparent bg-gold-soft">
               <h2 className="mb-4 text-xl">How we help</h2>
               <ul className="flex flex-col gap-3 text-[15px]">{p.howWeHelp.map((w) => <li key={w} className="flex gap-3"><Check className="mt-0.5 size-5 shrink-0 text-burgundy" />{w}</li>)}</ul>
             </div>
@@ -121,7 +121,7 @@ export default async function ProgramPage({ params }: Props) {
             <SectionHeading light eyebrow="Book online" title={`${p.name.replace("Hetty ", "")} sessions & courses`} />
             <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
               {services.map((s) => (
-                <div key={String(s._id)} className="flex flex-col gap-3 rounded-2xl border border-white/15 bg-white/5 p-6">
+                <div key={String(s._id)} data-reveal className="flex flex-col gap-3 rounded-2xl border border-white/15 bg-white/5 p-6 transition-colors hover:bg-white/10">
                   <span className="text-xs uppercase tracking-wider text-gold">{s.kind === "course" ? "Course" : `${s.durationMin} min session`}</span>
                   <h3 className="text-xl text-white">{s.name}</h3>
                   {s.summary && <p className="text-white/80">{s.summary}</p>}

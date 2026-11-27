@@ -1,6 +1,8 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
+import { RevealObserver } from "@/components/RevealObserver";
+import { BookingPopup } from "@/components/BookingPopup";
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -12,6 +14,8 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
       <main id="main">{children}</main>
       <Footer />
       <WhatsAppButton />
+      <BookingPopup />
+      <RevealObserver />
     </>
   );
 }

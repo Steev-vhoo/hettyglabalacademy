@@ -17,8 +17,8 @@ export function AddVideoForm() {
       {state.ok && <Notice tone="success">{state.message}</Notice>}
       <div>
         <label className="label" htmlFor="v-url">TikTok video link</label>
-        <input className="input" id="v-url" name="url" type="url" required placeholder="https://www.tiktok.com/@stylenurse1/video/…" />
-        <p className="mt-1 text-xs text-muted">In the TikTok app: open the video › Share › Copy link. On a computer, copy the address bar.</p>
+        <input className="input" id="v-url" name="url" type="url" required placeholder="https://vt.tiktok.com/… or https://www.tiktok.com/@stylenurse1/video/…" />
+        <p className="mt-1 text-xs text-muted">In the TikTok app: open the video › Share › Copy link. Short vt.tiktok.com links are fine.</p>
       </div>
       <div><label className="label" htmlFor="v-title">Title (optional)</label><input className="input" id="v-title" name="title" placeholder="Filled in from TikTok if left empty" /></div>
       <div><label className="label" htmlFor="v-cover">Cover image link (optional)</label><input className="input" id="v-cover" name="coverImage" type="url" placeholder="https://…" /></div>

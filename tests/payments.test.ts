@@ -30,3 +30,12 @@ test("TikTok id parsing", () => {
   assert.equal(tiktokId("https://example.com/video/7312345678901234567"), null);
   assert.equal(tiktokId("not a url"), null);
 });
+
+test("TikTok short links are recognised", async () => {
+  const { isTikTokShortLink, resolveTikTokUrl } = await import("../src/lib/tiktok.ts");
+  assert.equal(isTikTokShortLink("https://vt.tiktok.com/ZSs2ASuhm/"), true);
+  assert.equal(isTikTokShortLink("https://www.tiktok.com/t/ZT8abc/"), true);
+  assert.equal(isTikTokShortLink("https://www.tiktok.com/@stylenurse1/video/7312345678901234567"), false);
+  assert.equal(await resolveTikTokUrl("https://www.tiktok.com/@stylenurse1/video/7312345678901234567?lang=en"), "https://www.tiktok.com/@stylenurse1/video/7312345678901234567");
+  assert.equal(await resolveTikTokUrl("https://example.com/x"), null);
+});

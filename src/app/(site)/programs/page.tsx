@@ -5,6 +5,7 @@ import { PageHero } from "@/components/ui";
 import { Arrow, programIcon } from "@/components/icons";
 import { ArrowDot, Photo } from "@/components/brand";
 import { media } from "@/lib/media";
+import { delay } from "@/lib/motion";
 
 export const metadata: Metadata = {
   title: "Programs — NCLEX, CELPIP, English & Mentorship",
@@ -18,10 +19,10 @@ export default function ProgramsPage() {
       <PageHero crumb="Programs" title="Programs & academies" intro="Choose the support that fits where you are in your journey." />
       <section className="py-20">
         <div className="container-x grid gap-6 md:grid-cols-2">
-          {programs.map((p) => {
+          {programs.map((p, i) => {
             const Icon = programIcon[p.icon];
             return (
-              <Link key={p.slug} href={`/programs/${p.slug}`} className="group flex flex-col gap-5 rounded-[28px] border border-line bg-ivory-light p-3 text-charcoal no-underline transition-shadow hover:shadow-lg">
+              <Link key={p.slug} href={`/programs/${p.slug}`} data-reveal style={delay((i % 2) * 120)} className="group flex flex-col gap-5 rounded-[28px] border border-line bg-ivory-light p-3 text-charcoal no-underline transition-[transform,box-shadow] duration-500 hover:-translate-y-1 hover:shadow-xl">
                 <Photo m={media.program[p.slug]} tone={p.slug === "celpip" ? "gold" : "burgundy"} className="aspect-[16/9] rounded-[22px]" />
                 <div className="flex flex-col gap-4 px-5 pb-5">
                   <div className="flex items-center justify-between gap-4">

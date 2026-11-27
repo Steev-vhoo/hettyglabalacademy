@@ -27,7 +27,7 @@ Steps on Vercel:
 2. vercel.com → *Add New Project* → import the repo.
 3. Add every variable from `.env.example` under *Settings → Environment Variables*. Set `NEXT_PUBLIC_SITE_URL` to `https://yourdomain.com`.
 4. Deploy, then *Settings → Domains* → add the domain and follow the DNS instructions.
-5. Run `npm run seed` and `npm run create-admin` once from a computer with `.env.local` pointing at the production database.
+5. Run `npm run seed` (adds starter services, availability, and three popular @stylenurse1 TikTok videos) and `npm run create-admin` once from a computer with `.env.local` pointing at the production database.
 
 ## 4. Payments
 
@@ -66,7 +66,7 @@ Confirmation and notification emails use SMTP. Any provider works: Google Worksp
 ## 7. Content still needed from Harriet (`TODO(client)`)
 
 - Logo as a transparent PNG or SVG (the current file has a cream background)
-- Photos: Harriet, classes, students — save them in `public/images/` and set each `src` in `src/lib/media.ts` (until then the site shows designed brand panels in those spots)
+- More photos (classes, students; two photos of Harriet are already in `public/images/`) — save them in `public/images/` and set each `src` in `src/lib/media.ts` (until then the site shows designed brand panels in those spots)
 - Her story for the About page; testimonials with permission (`src/lib/content.ts` — the section stays hidden until added)
 - Final prices, course dates and seat numbers
 - WhatsApp number, Instagram/Facebook links

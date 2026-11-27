@@ -10,6 +10,7 @@ import { Arrow, Check, Play, programIcon } from "@/components/icons";
 import { TikTokCard } from "@/components/TikTokCard";
 import { PostCard } from "@/components/PostCard";
 import { ContactForm } from "@/components/forms/ContactForm";
+import { delay } from "@/lib/motion";
 
 export const revalidate = 300;
 
@@ -53,18 +54,18 @@ export default async function Home() {
         <span aria-hidden="true" className="absolute bottom-6 left-[8%] h-20 w-32 opacity-40 dots" />
         <div className="container-x relative grid items-center gap-14 py-16 lg:grid-cols-[1.05fr_1fr] lg:py-20">
           <div className="flex flex-col gap-6">
-            <Eyebrow>Nursing · Language · Education · Mentorship</Eyebrow>
-            <h1 className="text-[44px] leading-[1.04] sm:text-6xl lg:text-[68px]">
+            <div className="animate-rise"><Eyebrow>Nursing · Language · Education · Mentorship</Eyebrow></div>
+            <h1 style={delay(100)} className="animate-rise text-[44px] leading-[1.04] sm:text-6xl lg:text-[68px]">
               Empowering Minds. Elevating Careers. <em className="text-gold-dark">Transforming Futures.</em>
             </h1>
-            <p className="max-w-xl text-lg text-muted">
+            <p style={delay(220)} className="max-w-xl animate-rise text-lg text-muted">
               NCLEX preparation, CELPIP coaching, English communication and career mentorship — led by Registered Nurse {site.founder.name}, for Ghanaian learners at home and abroad.
             </p>
-            <div className="flex flex-wrap items-center gap-5">
-              <Link href="/book" className="btn-primary min-h-12 px-7">Book a session <Arrow /></Link>
+            <div style={delay(320)} className="flex animate-rise flex-wrap items-center gap-5">
+              <Link href="/book" className="btn-primary min-h-12 px-7 transition-transform hover:-translate-y-0.5">Book a session <Arrow /></Link>
               <Link href="/programs" className="font-semibold underline decoration-gold decoration-2 underline-offset-4">View all programs</Link>
             </div>
-            <ul className="mt-2 grid max-w-xl grid-cols-1 gap-2 rounded-2xl bg-white/70 p-4 text-sm sm:grid-cols-3">
+            <ul style={delay(420)} className="mt-2 grid max-w-xl animate-rise grid-cols-1 gap-2 rounded-2xl bg-white/70 p-4 text-sm sm:grid-cols-3">
               {["Taught by an RN", "Online, any timezone", "Pay with MoMo or card"].map((t) => (
                 <li key={t} className="flex items-center gap-2"><span className="grid size-6 place-items-center rounded-full bg-burgundy text-gold"><Check className="size-3.5" /></span>{t}</li>
               ))}
@@ -72,13 +73,14 @@ export default async function Home() {
           </div>
 
           {/* Photo collage */}
-          <div className="relative mx-auto grid w-full max-w-[560px] grid-cols-[1.15fr_1fr] gap-4">
+          <div style={delay(200)} className="relative mx-auto grid w-full max-w-[560px] animate-rise grid-cols-[1.15fr_1fr] gap-4">
             <Photo m={media.heroPortrait} priority className="row-span-2 min-h-[420px] rounded-[40px_120px_40px_40px] sm:min-h-[500px]" />
             <Photo m={media.heroClass} tone="gold" className="min-h-[200px] rounded-[120px_40px_40px_40px] sm:min-h-[240px]" />
             <Photo m={media.heroStudy} tone="ivory" className="min-h-[200px] rounded-[40px_40px_120px_40px] sm:min-h-[240px]" />
             <BookBadge id="hero-badge" className="absolute top-1/2 left-[46%] -translate-x-1/2 -translate-y-1/2" />
-            <Sparkle className="absolute -right-2 bottom-8 size-10 text-gold" />
-            <Sparkle className="absolute right-8 bottom-24 size-5 text-gold-dark" />
+            <Sparkle className="absolute -right-2 bottom-8 size-10 animate-twinkle text-gold" />
+            <Sparkle className="absolute right-8 bottom-24 size-5 animate-twinkle text-gold-dark [animation-delay:1.4s]" />
+            <Sparkle className="absolute -top-4 left-6 size-6 animate-float text-gold" />
           </div>
         </div>
       </section>
@@ -92,7 +94,7 @@ export default async function Home() {
       {/* ───────── Bento intro ───────── */}
       <section className="py-20 sm:py-24">
         <div className="container-x grid gap-5 md:grid-cols-3">
-          <Link href="/about" className="group flex flex-col gap-5 rounded-[28px] bg-ivory p-7 text-charcoal no-underline">
+          <Link href="/about" data-reveal className="group flex flex-col gap-5 rounded-[28px] bg-ivory p-7 transition-shadow hover:shadow-xl text-charcoal no-underline">
             <div className="flex items-start justify-between gap-4">
               <span className="pill border border-line bg-white text-muted">WHO WE ARE</span>
               <ArrowDot />
@@ -100,7 +102,7 @@ export default async function Home() {
             <h2 className="text-2xl leading-snug">A nurse-led academy helping Ghanaian nurses pass, practise and thrive</h2>
             <Photo m={media.aboutTop} className="mt-auto aspect-[4/3] rounded-2xl" />
           </Link>
-          <Link href="/programs/nclex" className="group relative flex flex-col gap-5 overflow-hidden rounded-[28px] bg-gold p-3 text-charcoal no-underline">
+          <Link href="/programs/nclex" data-reveal style={delay(120)} className="group relative flex transition-shadow hover:shadow-xl flex-col gap-5 overflow-hidden rounded-[28px] bg-gold p-3 text-charcoal no-underline">
             <Photo m={media.program.nclex} className="aspect-[4/3.4] rounded-[22px]" />
             <div className="flex items-end justify-between gap-4 px-4 pb-4">
               <div>
@@ -110,7 +112,7 @@ export default async function Home() {
               <ArrowDot light />
             </div>
           </Link>
-          <Link href="/videos" className="group flex flex-col gap-5 rounded-[28px] bg-ivory p-7 text-charcoal no-underline">
+          <Link href="/videos" data-reveal style={delay(240)} className="group flex flex-col gap-5 rounded-[28px] bg-ivory p-7 transition-shadow hover:shadow-xl text-charcoal no-underline">
             <div className="flex items-start justify-between gap-4">
               <span className="pill border border-line bg-white text-muted">ON TIKTOK</span>
               <ArrowDot />
@@ -127,10 +129,10 @@ export default async function Home() {
       {/* ───────── About + facts ───────── */}
       <section className="pb-20 sm:pb-24">
         <div className="container-x">
-          <div className="flex justify-center"><Eyebrow>About us</Eyebrow></div>
-          <h2 className="mx-auto mt-3 max-w-3xl text-center text-3xl leading-[1.12] sm:text-[44px]">Founded by a nurse, for the next generation of nurses</h2>
+          <div data-reveal className="flex justify-center"><Eyebrow>About us</Eyebrow></div>
+          <h2 data-reveal className="mx-auto mt-3 max-w-3xl text-center text-3xl leading-[1.12] sm:text-[44px]">Founded by a nurse, for the next generation of nurses</h2>
           <div className="mt-12 grid items-center gap-12 lg:grid-cols-2">
-            <div className="relative grid grid-cols-[1.4fr_1fr] gap-4">
+            <div data-reveal="left" className="relative grid grid-cols-[1.4fr_1fr] gap-4">
               <Photo m={media.aboutTop} className="min-h-[220px] rounded-3xl" />
               <div aria-hidden="true" className="flex flex-col gap-3">
                 <span className="h-1/2 rounded-t-full border border-line" />
@@ -139,7 +141,7 @@ export default async function Home() {
               <Photo m={media.aboutBottom} tone="gold" className="col-span-2 min-h-[240px] rounded-3xl" />
               <BookBadge id="about-badge" className="absolute top-[44%] right-[18%] size-28 -translate-y-1/2" />
             </div>
-            <div className="flex flex-col gap-6">
+            <div data-reveal="right" className="flex flex-col gap-6">
               <p className="text-lg text-muted">
                 {site.founder.name} started Hetty Global Academy to give nurses and students practical, trustworthy guidance — from passing licensing and language exams to building a career at home or abroad.
               </p>
@@ -161,7 +163,7 @@ export default async function Home() {
           </div>
           <dl className="mt-16 grid grid-cols-2 border-y border-line lg:grid-cols-4">
             {facts.map((f, i) => (
-              <div key={f.label} className={`flex items-center gap-4 px-4 py-7 sm:px-6 ${i % 2 ? "border-l border-line" : ""} ${i === 2 ? "lg:border-l" : ""} ${i > 1 ? "border-t border-line lg:border-t-0" : ""}`}>
+              <div key={f.label} data-reveal style={delay(i * 100)} className={`flex items-center gap-4 px-4 py-7 sm:px-6 ${i % 2 ? "border-l border-line" : ""} ${i === 2 ? "lg:border-l" : ""} ${i > 1 ? "border-t border-line lg:border-t-0" : ""}`}>
                 <dd className="font-serif text-4xl text-burgundy sm:text-5xl">{f.big}</dd>
                 <dt className="text-sm text-muted">{f.label}</dt>
               </div>
@@ -191,7 +193,7 @@ export default async function Home() {
                 </div>
               );
               return (
-                <Link key={p.slug} href={`/programs/${p.slug}`} className={`group flex flex-col gap-3 rounded-3xl p-3 no-underline transition-transform hover:-translate-y-1 ${hi ? "bg-gold" : "bg-white/[0.06]"}`}>
+                <Link key={p.slug} href={`/programs/${p.slug}`} data-reveal style={delay(i * 110)} className={`group flex flex-col gap-3 rounded-3xl p-3 no-underline transition-[transform,box-shadow] duration-500 hover:-translate-y-1.5 hover:shadow-2xl ${hi ? "bg-gold" : "bg-white/[0.06]"}`}>
                   {hi ? <>{text}<Photo m={media.program[p.slug]} tone="burgundy" className="aspect-[4/3] rounded-2xl" /></> : <><Photo m={media.program[p.slug]} tone={i % 2 ? "gold" : "ivory"} className="aspect-[4/3] rounded-2xl" />{text}</>}
                 </Link>
               );
@@ -203,7 +205,7 @@ export default async function Home() {
       {/* ───────── Learning hub ───────── */}
       <section className="py-20 sm:py-24">
         <div className="container-x grid gap-5 lg:grid-cols-[1fr_1.15fr]">
-          <div className="relative min-h-[460px] overflow-hidden rounded-[28px]">
+          <div data-reveal="left" className="group relative min-h-[460px] overflow-hidden rounded-[28px]">
             <Photo m={media.hub} className="absolute inset-0" />
             <div className="absolute inset-0 bg-gradient-to-t from-burgundy-dark via-burgundy-dark/40 to-transparent" />
             <div className="absolute inset-x-0 bottom-0 flex flex-col gap-4 p-8">
@@ -214,8 +216,8 @@ export default async function Home() {
           </div>
           <div className="grid gap-5 sm:grid-cols-2">
             {hub.map((h, i) => (
-              <Link key={h.t} href={h.href} className={`group flex flex-col justify-between gap-6 rounded-[24px] border p-7 text-charcoal no-underline transition-shadow hover:shadow-lg ${i === 1 ? "border-transparent bg-gold-soft" : i === 2 ? "border-transparent bg-ivory" : "border-line bg-white"}`}>
-                <span className="grid size-12 place-items-center rounded-2xl bg-burgundy text-gold"><Sparkle className="size-5" /></span>
+              <Link key={h.t} href={h.href} data-reveal style={delay(i * 100)} className={`group flex flex-col justify-between gap-6 rounded-[24px] border p-7 text-charcoal no-underline transition-[transform,box-shadow] duration-500 hover:-translate-y-1 hover:shadow-lg ${i === 1 ? "border-transparent bg-gold-soft" : i === 2 ? "border-transparent bg-ivory" : "border-line bg-white"}`}>
+                <span className="grid size-12 place-items-center rounded-2xl bg-burgundy text-gold transition-transform duration-500 group-hover:rotate-12"><Sparkle className="size-5" /></span>
                 <div>
                   <h3 className="text-xl">{h.t}</h3>
                   <p className="mt-2 text-sm text-muted">{h.d}</p>
@@ -238,7 +240,7 @@ export default async function Home() {
               <a href={tiktokProfileUrl} className="btn-primary" target="_blank" rel="noopener noreferrer">Follow on TikTok</a>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-5 lg:grid-cols-4">
+          <div data-reveal className="grid grid-cols-2 gap-5 lg:grid-cols-4">
             {videos.length > 0
               ? videos.map((v) => <TikTokCard key={v.videoId} videoId={v.videoId} title={v.title} coverImage={v.coverImage} url={v.url} />)
               : ["Nursing tips", "NCLEX advice", "CELPIP practice", "Life abroad"].map((t, i) => (
@@ -257,7 +259,7 @@ export default async function Home() {
       {/* ───────── How it works ───────── */}
       <section className="py-20 sm:py-24">
         <div className="container-x">
-          <div className="relative overflow-hidden rounded-[32px] bg-burgundy px-6 py-14 text-white sm:px-12">
+          <div data-reveal="zoom" className="relative overflow-hidden rounded-[32px] bg-burgundy px-6 py-14 text-white sm:px-12">
             <span aria-hidden="true" className="absolute inset-0 opacity-10 dots" />
             <div className="relative flex flex-col gap-10">
               <div className="flex flex-wrap items-end justify-between gap-6">
@@ -270,7 +272,7 @@ export default async function Home() {
                   ["Pick a date & time", "Open times are shown in your own timezone."],
                   ["Pay & get confirmed", "Mobile Money or card. Your confirmation and meeting link arrive by email."],
                 ].map(([t, d], i) => (
-                  <li key={t} className="flex flex-col gap-3 rounded-2xl bg-white/[0.07] p-7 ring-1 ring-white/15">
+                  <li key={t} data-reveal style={delay(i * 130)} className="flex flex-col gap-3 rounded-2xl bg-white/[0.07] p-7 ring-1 ring-white/15 transition-colors hover:bg-white/[0.12]">
                     <span className="grid size-12 place-items-center rounded-full bg-gold font-display text-lg text-burgundy">{i + 1}</span>
                     <h3 className="text-xl text-white">{t}</h3>
                     <p className="text-white/80">{d}</p>
@@ -285,19 +287,19 @@ export default async function Home() {
       {/* ───────── Meet your mentor ───────── */}
       <section className="pb-20 sm:pb-24">
         <div className="container-x grid items-stretch gap-5 md:grid-cols-[1fr_1.1fr_1fr]">
-          <div className="flex flex-col justify-between gap-8 rounded-[28px] border border-line p-8">
+          <div data-reveal className="flex flex-col justify-between gap-8 rounded-[28px] border border-line p-8">
             <Eyebrow>Your mentor</Eyebrow>
             <h2 className="text-3xl leading-tight">Meet the nurse behind the academy</h2>
             <p className="text-muted">Every program is designed and taught by {site.founder.name}, drawing on her own journey through training, licensing and practice.</p>
           </div>
-          <div className="relative min-h-[420px] overflow-hidden rounded-[28px]">
+          <div data-reveal style={delay(120)} className="group relative min-h-[420px] overflow-hidden rounded-[28px]">
             <Photo m={{ ...media.mentor, label: undefined }} className="absolute inset-0" />
             <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 bg-gradient-to-t from-burgundy-dark/90 to-transparent p-6 pt-20 text-white">
               <div><p className="font-serif text-2xl">{site.founder.name}</p><p className="text-sm text-white/80">{site.founder.title}</p></div>
               <Link href="/about" className="btn btn-sm bg-white text-burgundy">View profile <Arrow /></Link>
             </div>
           </div>
-          <div className="flex flex-col justify-between gap-6 rounded-[28px] bg-gold p-8 text-charcoal">
+          <div data-reveal style={delay(240)} className="flex flex-col justify-between gap-6 rounded-[28px] bg-gold p-8 text-charcoal">
             <p className="font-serif text-2xl leading-snug text-burgundy">Not sure where to start?</p>
             <p>Book a free 15-minute discovery call and we&apos;ll point you to the right academy.</p>
             <div className="flex flex-col gap-3">
@@ -342,7 +344,7 @@ export default async function Home() {
       {/* ───────── Let's connect ───────── */}
       <section className="pb-16">
         <div className="container-x">
-          <div className="grid overflow-hidden rounded-[32px] bg-ivory lg:grid-cols-[1.1fr_1fr]">
+          <div data-reveal className="grid overflow-hidden rounded-[32px] bg-ivory lg:grid-cols-[1.1fr_1fr]">
             <div className="flex flex-col gap-6 p-7 sm:p-12">
               <SectionHeading eyebrow="Let's connect" title="Have a question? We'd love to help." />
               <ContactForm />

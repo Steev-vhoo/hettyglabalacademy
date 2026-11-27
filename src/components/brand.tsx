@@ -11,12 +11,12 @@ const TONES = {
 };
 
 /** A photo, or — until one is added in src/lib/media.ts — a designed brand panel of the same size. */
-export function Photo({ m, className = "", tone = "burgundy", sizes = "(min-width: 1024px) 40vw, 100vw", priority }: { m: Media; className?: string; tone?: keyof typeof TONES; sizes?: string; priority?: boolean }) {
+export function Photo({ m, className = "", tone = "burgundy", sizes = "(min-width: 1024px) 40vw, 100vw", priority, zoom = true }: { m: Media; className?: string; tone?: keyof typeof TONES; sizes?: string; priority?: boolean; zoom?: boolean }) {
   const Icon = ICONS[m.icon];
   return (
     <div className={`${/\babsolute\b/.test(className) ? "" : "relative"} overflow-hidden ${className}`}>
       {m.src ? (
-        <Image src={m.src} alt={m.alt} fill sizes={sizes} priority={priority} className="object-cover" />
+        <Image src={m.src} alt={m.alt} fill sizes={sizes} priority={priority} style={{ objectPosition: m.focus ?? "50% 50%" }} className={`object-cover ${zoom ? "transition-transform duration-[1200ms] ease-[cubic-bezier(.2,.7,.2,1)] group-hover:scale-[1.05]" : ""}`} />
       ) : (
         <div role="img" aria-label={m.alt} className={`absolute inset-0 flex items-center justify-center ${TONES[tone]}`}>
           <span aria-hidden="true" className="absolute inset-0 opacity-25 dots [mask-image:linear-gradient(to_bottom,black,transparent_70%)]" />

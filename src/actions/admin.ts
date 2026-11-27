@@ -9,7 +9,7 @@ import { ACADEMIES, Booking, BOOKING_STATUSES, Message, POST_CATEGORIES, Post, S
 import { notifyBooking } from "@/lib/booking";
 import { slugify } from "@/lib/format";
 import { hhmmToMinutes } from "@/lib/slots";
-import { tiktokId, tiktokTitle } from "@/lib/tiktok";
+import { resolveTikTokUrl, tiktokId, tiktokTitle } from "@/lib/tiktok";
 import { fieldErrors, type FormState } from "./types";
 
 const objectId = z.string().regex(/^[a-f0-9]{24}$/);
@@ -216,9 +216,10 @@ export async function deletePost(id: string) {
 
 export async function addVideo(_: FormState, form: FormData): Promise<FormState> {
   await admin();
-  const url = String(form.get("url") ?? "").trim();
-  const id = tiktokId(url);
-  if (!id) return { error: "Paste the full TikTok video link, e.g. https://www.tiktok.com/@stylenurse1/video/7312345678901234567 (open the video, then Share › Copy link)." };
+  const pasted = String(form.get("url") ?? "").trim();
+  const url = await resolveTikTokUrl(pasted);
+  const id = url ? tiktokId(url) : null;
+  if (!url || !id) return { error: "That doesn't look like a TikTok video link. In TikTok open the video › Share › Copy link, then paste it here (short vt.tiktok.com links work too)." };
   if (await Video.exists({ videoId: id })) return { error: "That video is already on the site." };
   const title = String(form.get("title") ?? "").trim().slice(0, 200) || (await tiktokTitle(url));
   const coverImage = String(form.get("coverImage") ?? "").trim();
